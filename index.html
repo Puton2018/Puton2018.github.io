@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latinized Xdi8 Aho Conventor 2.1</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+        }
+        body {
+            background: #f0f2f5;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+        .card {
+            max-width: 880px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -10px rgba(0,20,30,0.25);
+            padding: 28px 32px;
+            transition: 0.2s;
+        }
+        .header {
+            border-left: 5px solid #2b6f9b;
+            padding-left: 20px;
+            margin-bottom: 28px;
+        }
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 0 0 4px;
+            color: #1a3e4c;
+            letter-spacing: -0.01em;
+        }
+        .header .sub {
+            font-size: 1.1rem;
+            color: #3a6b7e;
+            font-weight: 400;
+            margin: 0;
+        }
+        .info {
+            background: #e9f2f7;
+            border-radius: 20px;
+            padding: 16px 22px;
+            font-size: 0.9rem;
+            color: #0a2a33;
+            margin-bottom: 24px;
+            line-height: 1.5;
+            border: 1px solid #bdd8e8;
+        }
+        .info p {
+            margin: 6px 0;
+        }
+        .info .version {
+            font-family: 'Courier New', monospace;
+            background: #ffffffb0;
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            border: 1px solid #9bc0d0;
+        }
+        .input-area {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .input-area input {
+            flex: 1 1 300px;
+            padding: 16px 22px;
+            border: 2px solid #cbdbe6;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            outline: none;
+            background: white;
+            transition: 0.15s;
+            font-family: 'Courier New', monospace;
+        }
+        .input-area input:focus {
+            border-color: #2b6f9b;
+            box-shadow: 0 0 0 4px #a3c6e0;
+        }
+        .input-area button {
+            background: #1f5068;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0 36px;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.15s;
+            letter-spacing: 0.5px;
+            border: 2px solid #1f5068;
+        }
+        .input-area button:hover {
+            background: #0f3b4f;
+            border-color: #0f3b4f;
+            transform: scale(0.98);
+        }
+        .output-panel {
+            background: #fafcfd;
+            border-radius: 26px;
+            padding: 24px;
+            border: 1px solid #c9dde9;
+            box-shadow: inset 0 2px 5px #00000008;
+        }
+        .fmt {
+            margin-bottom: 20px;
+        }
+        .fmt-label {
+            font-weight: 600;
+            color: #1a4b5e;
+            display: block;
+            margin-bottom: 6px;
+            font-size: 1.1rem;
+            letter-spacing: 0.3px;
+        }
+        .fmt-content {
+            background: white;
+            border-radius: 20px;
+            padding: 16px 22px;
+            border: 1px solid #c0dae7;
+            font-family: 'Courier New', 'Consolas', monospace;
+            font-size: 1.3rem;
+            word-break: break-word;
+            box-shadow: 0 4px 8px #d9e4ec;
+            line-height: 1.5;
+        }
+        .divider {
+            margin: 24px 0 16px;
+            border: none;
+            border-top: 2px dashed #aac3d2;
+        }
+        .footer-note {
+            font-size: 0.85rem;
+            color: #4e6f80;
+            background: #e4eef5;
+            padding: 10px 20px;
+            border-radius: 40px;
+            display: inline-block;
+        }
+        .error-msg {
+            color: #b13e3e;
+            font-weight: 500;
+            margin-top: 10px;
+            padding-left: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="header">
+        <h1>Latinized Xdi8 Aho Conventor 2.1</h1>
+        <div class="sub">Lating Fia Shidinn Aho Chizwae Shio Ochuei 2.1</div>
+    </div>
+
+    <div class="info">
+        <p>📘 Based on LATINIZED XDI8 AHO CONVERSION TABLE 2024 · Powered by Puton2018</p>
+        <p><span class="version">📅 Latest version: 17th February, 2026</span></p>
+        <p>Enter the original Xdi8 Aho chat letters below, then you can obtain 3 formats of the Latinized conversion: [Caption], [Contents] and [Lyric]. Letters in [Caption] format are all CAPITALIZED. In [Lyric] format, the sentence is split into syllables which can be used in UTAU tuning. Try Puton2018's sound resources in UTAU.</p>
+    </div>
+
+    <div class="input-area">
+        <input type="text" id="inputText" placeholder="Enter Xdi8 chat letters... " value="xdi8 aho" spellcheck="false">
+        <button id="convertBtn">Convert</button>
+    </div>
+
+    <div class="output-panel" id="outputPanel">
+        <div class="fmt">
+            <span class="fmt-label">📌 Caption</span>
+            <div class="fmt-content" id="captionOut">BTB2B1</div>
+        </div>
+        <div class="fmt">
+            <span class="fmt-label">📄 Contents</span>
+            <div class="fmt-content" id="contentsOut">Btb2b1</div>
+        </div>
+        <div class="fmt">
+            <span class="fmt-label">🎤 Lyric</span>
+            <div class="fmt-content" id="lyricOut">bt b2 b1</div>
+        </div>
+        <div class="divider"></div>
+        <div class="footer-note" id="stats"></div>
+    </div>
+</div>
+
+<script>
+(function() {
+    // ---------- 原始数据表 (完全按照Python变量 a 和 b 拆分) ----------
+    const rawYuanwen = `ba bo be bE bA bY bL b6 b2 bT b8 b3 bV b1 
+bia bio bie biA biY biL bi6 bi2 biT bi8 bi3 biV bi1 
+bua buo bue buE buY buL bu6 bu2 buT bu8 bu3 buV bu1 
+pa po pe pE pA pY pL p6 p2 pT p8 p3 pV p1 
+pia pio pie piA piY piL pi6 pi2 piT pi8 pi3 piV pi1 
+pua puo pue puE puY puL pu6 pu2 puT pu8 pu3 puV pu1 
+ma mo me mE mA mY mL m6 m2 mT m8 m3 mV m1 
+mia mio mie miA miY miL mi6 mi2 miT mi8 mi3 miV mi1 
+mua muo mue muE muY muL mu6 mu2 muT mu8 mu3 muV mu1 
+wa wo we wE wA wY wL w6 w2 wT w8 w3 wV w1 
+wia wio wie wiA wiY wiL wi6 wi2 wiT wi8 wi3 wiV wi1 
+ja jo je jE jA jY jL j6 j2 jT j8 j3 jV j1 
+jia jio jie jiA jiY jiL ji6 ji2 jiT ji8 ji3 jiV ji1 
+jua juo jue juE juY juL ju6 ju2 juT ju8 ju3 juV ju1 
+qa qo qe qE qA qY qL q6 q2 qT q8 q3 qV q1 
+qia qio qie qiA qiY qiL qi6 qi2 qiT qi8 qi3 qiV qi1 
+qua quo que quE quY quL qu6 qu2 quT qu8 qu3 quV qu1 
+xa xo xe xE xA xY xL x6 x2 xT x8 x3 xV x1 
+xia xio xie xiA xiY xiL xi6 xi2 xiT xi8 xi3 xiV xi1 
+xua xuo xue xuE xuY xuL xu6 xu2 xuT xu8 xu3 xuV xu1 
+ya yo ye yE yA yY yL y6 y2 yT y8 y3 yV y1 
+yia yio yie yiA yiY yiL yi6 yi2 yiT yi8 yi3 yiV yi1 
+yua yuo yue yuE yuY yuL yu6 yu2 yuT yu8 yu3 yuV yu1 
+na no ne nE nA nY nL n6 n2 nT n8 n3 nV n1 
+nia nio nie niA niY niL ni6 ni2 niT ni8 ni3 niV ni1 
+nua nuo nue nuE nuY nuL nu6 nu2 nuT nu8 nu3 nuV nu1 
+za zo ze zE zA zY zL z6 z2 zT z8 z3 zV z1 
+zua zuo zue zuE zuY zuL zu6 zu2 zuT zu8 zu3 zuV zu1 
+Da Do De DE DA DY DL D6 D2 DT D8 D3 DV D1 
+Dua Duo Due DuE DuY DuL Du6 Du2 DuT Du8 Du3 DuV Du1 
+sa so se sE sA sY sL s6 s2 sT s8 s3 sV s1 
+sua suo sue suE suY suL su6 su2 suT su8 su3 suV su1 
+ra ro re rE rA rY rL r6 r2 rT r8 r3 rV r1 
+rua ruo rue ruE ruY ruL ru6 ru2 ruT ru8 ru3 ruV ru1 
+Ha Ho He HE HA HY HL H6 H2 HT H8 H3 HV H1 
+Hua Huo Hue HuE HuY HuL Hu6 Hu2 HuT Hu8 Hu3 HuV Hu1 
+Na No Ne NE NA NY NL N6 N2 NT N8 N3 NV N1 
+Nia Nio Nie NiA NiY NiL Ni6 Ni2 NiT Ni8 Ni3 NiV Ni1 
+la lo le lE lA lY lL l6 l2 lT l8 l3 lV l1 
+lia lio lie liA liY liL li6 li2 liT li8 li3 liV li1 
+da do de dE dA dY dL d6 d2 dT d8 d3 dV d1 
+dia dio die diA diY diL di6 di2 diT di8 di3 diV di1 
+ta to te tE tA tY tL t6 t2 tT t8 t3 tV t1 
+tia tio tie tiA tiY tiL ti6 ti2 tiT ti8 ti3 tiV ti1 
+ga go ge gE gA gY gL g6 g2 gT g8 g3 gV g1 
+gia gio gie giA giY giL gi6 gi2 giT gi8 gi3 giV gi1 
+ka ko ke kE kA kY kL k6 k2 kT k8 k3 kV k1 
+kia kio kie kiA kiY kiL ki6 ki2 kiT ki8 ki3 kiV ki1 
+ha ho he hE hA hY hL h6 h2 hT h8 h3 hV h1 
+hia hio hie hiA hiY hiL hi6 hi2 hiT hi8 hi3 hiV hi1 
+hua huo hue huE huY huL hu6 hu2 huT hu8 hu3 huV hu1 
+4a 4o 4e 4E 4A 4Y 4L 46 42 4T 48 43 4V 41 
+4ia 4io 4ie 4iA 4iY 4iL 4i6 4i2 4iT 4i8 4i3 4iV 4i1 
+4ua 4uo 4ue 4uE 4uY 4uL 4u6 4u2 4uT 4u8 4u3 4uV 4u1 
+5a 5o 5e 5E 5Y 5L 56 52 5T 58 53 5V 51 
+5ia 5io 5ie 5iY 5iL 5i6 5i2 5iT 5i8 5i3 5iV 5i1 
+va vo ve vE vY vL v6 v2 vT v8 v3 vV v1 
+via vio vie viY viL vi6 vi2 viT vi8 vi3 viV vi1 
+Fa Fo Fe FE FY FL F6 F2 FT F8 F3 FV F1 
+Fia Fio Fie FiY FiL Fi6 Fi2 FiT Fi8 Fi3 FiV Fi1 
+7a 7o 7e 7E 7Y 7L 76 72 7T 78 73 7V 71 
+7ia 7io 7ie 7iY 7iL 7i6 7i2 7iT 7i8 7i3 7iV 7i1 
+Ba Bo Be BE BY BL B6 B2 BT B8 B3 BV B1 
+Bia Bio Bie BiY BiL Bi6 Bi2 BiT Bi8 Bi3 BiV Bi1 
+ca co ce cE cY cL c6 c2 cT c8 c3 cV c1 
+cia cio cie ciY ciL ci6 ci2 ciT ci8 ci3 ciV ci1 
+fa fo fe fE fA fY fL f6 f2 fT f8 f3 fV f1 
+fia fio fie fiA fiY fiL fi6 fi2 fiT fi8 fi3 fiV fi1 
+fua fuo fue fuE fuY fuL fu6 fu2 fuT fu8 fu3 fuV fu1 
+baa boo bee bEE bAA bYY bLL b66 b22 bTT b88 b33 bVV b11 
+biaa bioo biee biAA biYY biLL bi66 bi22 biTT bi88 bi33 biVV bi11 
+buaa buoo buee buEE buYY buLL bu66 bu22 buTT bu88 bu33 buVV bu11 
+paa poo pee pEE pAA pYY pLL p66 p22 pTT p88 p33 pVV p11 
+piaa pioo piee piAA piYY piLL pi66 pi22 piTT pi88 pi33 piVV pi11 
+puaa puoo puee puEE puYY puLL pu66 pu22 puTT pu88 pu33 puVV pu11 
+maa moo mee mEE mAA mYY mLL m66 m22 mTT m88 m33 mVV m11 
+miaa mioo miee miAA miYY miLL mi66 mi22 miTT mi88 mi33 miVV mi11 
+muaa muoo muee muEE muYY muLL mu66 mu22 muTT mu88 mu33 muVV mu11 
+waa woo wee wEE wAA wYY wLL w66 w22 wTT w88 w33 wVV w11 
+wiaa wioo wiee wiAA wiYY wiLL wi66 wi22 wiTT wi88 wi33 wiVV wi11 
+jaa joo jee jEE jAA jYY jLL j66 j22 jTT j88 j33 jVV j11 
+jiaa jioo jiee jiAA jiYY jiLL ji66 ji22 jiTT ji88 ji33 jiVV ji11 
+juaa juoo juee juEE juYY juLL ju66 ju22 juTT ju88 ju33 juVV ju11 
+qaa qoo qee qEE qAA qYY qLL q66 q22 qTT q88 q33 qVV q11 
+qiaa qioo qiee qiAA qiYY qiLL qi66 qi22 qiTT qi88 qi33 qiVV qi11 
+quaa quoo quee quEE quYY quLL qu66 qu22 quTT qu88 qu33 quVV qu11 
+xaa xoo xee xEE xAA xYY xLL x66 x22 xTT x88 x33 xVV x11 
+xiaa xioo xiee xiAA xiYY xiLL xi66 xi22 xiTT xi88 xi33 xiVV xi11 
+xuaa xuoo xuee xuEE xuYY xuLL xu66 xu22 xuTT xu88 xu33 xuVV xu11 
+yaa yoo yee yEE yAA yYY yLL y66 y22 yTT y88 y33 yVV y11 
+yiaa yioo yiee yiAA yiYY yiLL yi66 yi22 yiTT yi88 yi33 yiVV yi11 
+yuaa yuoo yuee yuEE yuYY yuLL yu66 yu22 yuTT yu88 yu33 yuVV yu11 
+naa noo nee nEE nAA nYY nLL n66 n22 nTT n88 n33 nVV n11 
+niaa nioo niee niAA niYY niLL ni66 ni22 niTT ni88 ni33 niVV ni11 
+nuaa nuoo nuee nuEE nuYY nuLL nu66 nu22 nuTT nu88 nu33 nuVV nu11 
+zaa zoo zee zEE zAA zYY zLL z66 z22 zTT z88 z33 zVV z11 
+zuaa zuoo zuee zuEE zuYY zuLL zu66 zu22 zuTT zu88 zu33 zuVV zu11 
+Daa Doo Dee DEE DAA DYY DLL D66 D22 DTT D88 D33 DVV D11 
+Duaa Duoo Duee DuEE DuYY DuLL Du66 Du22 DuTT Du88 Du33 DuVV Du11 
+saa soo see sEE sAA sYY sLL s66 s22 sTT s88 s33 sVV s11 
+suaa suoo suee suEE suYY suLL su66 su22 suTT su88 su33 suVV su11 
+raa roo ree rEE rAA rYY rLL r66 r22 rTT r88 r33 rVV r11 
+ruaa ruoo ruee ruEE ruYY ruLL ru66 ru22 ruTT ru88 ru33 ruVV ru11 
+Haa Hoo Hee HEE HAA HYY HLL H66 H22 HTT H88 H33 HVV H11 
+Huaa Huoo Huee HuEE HuYY HuLL Hu66 Hu22 HuTT Hu88 Hu33 HuVV Hu11 
+Naa Noo Nee NEE NAA NYY NLL N66 N22 NTT N88 N33 NVV N11 
+Niaa Nioo Niee NiAA NiYY NiLL Ni66 Ni22 NiTT Ni88 Ni33 NiVV Ni11 
+laa loo lee lEE lAA lYY lLL l66 l22 lTT l88 l33 lVV l11 
+liaa lioo liee liAA liYY liLL li66 li22 liTT li88 li33 liVV li11 
+daa doo dee dEE dAA dYY dLL d66 d22 dTT d88 d33 dVV d11 
+diaa dioo diee diAA diYY diLL di66 di22 diTT di88 di33 diVV di11 
+taa too tee tEE tAA tYY tLL t66 t22 tTT t88 t33 tVV t11 
+tiaa tioo tiee tiAA tiYY tiLL ti66 ti22 tiTT ti88 ti33 tiVV ti11 
+gaa goo gee gEE gAA gYY gLL g66 g22 gTT g88 g33 gVV g11 
+giaa gioo giee giAA giYY giLL gi66 gi22 giTT gi88 gi33 giVV gi11 
+kaa koo kee kEE kAA kYY kLL k66 k22 kTT k88 k33 kVV k11 
+kiaa kioo kiee kiAA kiYY kiLL ki66 ki22 kiTT ki88 ki33 kiVV ki11 
+haa hoo hee hEE hAA hYY hLL h66 h22 hTT h88 h33 hVV h11 
+hiaa hioo hiee hiAA hiYY hiLL hi66 hi22 hiTT hi88 hi33 hiVV hi11 
+huaa huoo huee huEE huYY huLL hu66 hu22 huTT hu88 hu33 huVV hu11 
+4aa 4oo 4ee 4EE 4AA 4YY 4LL 466 422 4TT 488 433 4VV 411 
+4iaa 4ioo 4iee 4iAA 4iYY 4iLL 4i66 4i22 4iTT 4i88 4i33 4iVV 4i11 
+4uaa 4uoo 4uee 4uEE 4uYY 4uLL 4u66 4u22 4uTT 4u88 4u33 4uVV 4u11 
+5aa 5oo 5ee 5EE 5YY 5LL 566 522 5TT 588 533 5VV 511 
+5iaa 5ioo 5iee 5iYY 5iLL 5i66 5i22 5iTT 5i88 5i33 5iVV 5i11 
+vaa voo vee vEE vYY vLL v66 v22 vTT v88 v33 vVV v11 
+viaa vioo viee viYY viLL vi66 vi22 viTT vi88 vi33 viVV vi11 
+Faa Foo Fee FEE FYY FLL F66 F22 FTT F88 F33 FVV F11 
+Fiaa Fioo Fiee FiYY FiLL Fi66 Fi22 FiTT Fi88 Fi33 FiVV Fi11 
+7aa 7oo 7ee 7EE 7YY 7LL 766 722 7TT 788 733 7VV 711 
+7iaa 7ioo 7iee 7iYY 7iLL 7i66 7i22 7iTT 7i88 7i33 7iVV 7i11 
+Baa Boo Bee BEE BYY BLL B66 B22 BTT B88 B33 BVV B11 
+Biaa Bioo Biee BiYY BiLL Bi66 Bi22 BiTT Bi88 Bi33 BiVV Bi11 
+caa coo cee cEE cYY cLL c66 c22 cTT c88 c33 cVV c11 
+ciaa cioo ciee ciYY ciLL ci66 ci22 ciTT ci88 ci33 ciVV ci11 
+faa foo fee fEE fAA fYY fLL f66 f22 fTT f88 f33 fVV f11 
+fiaa fioo fiee fiAA fiYY fiLL fi66 fi22 fiTT fi88 fi33 fiVV fi11 
+fuaa fuoo fuee fuEE fuYY fuLL fu66 fu22 fuTT fu88 fu33 fuVV fu11 
+baH boH beH bEH bAH bYH bLH b6H b2H bTH b8H b3H bVH b1H 
+biaH bioH bieH biAH biYH biLH bi6H bi2H biTH bi8H bi3H biVH bi1H 
+buaH buoH bueH buEH buYH buLH bu6H bu2H buTH bu8H bu3H buVH bu1H 
+paH poH peH pEH pAH pYH pLH p6H p2H pTH p8H p3H pVH p1H 
+piaH pioH pieH piAH piYH piLH pi6H pi2H piTH pi8H pi3H piVH pi1H 
+puaH puoH pueH puEH puYH puLH pu6H pu2H puTH pu8H pu3H puVH pu1H 
+maH moH meH mEH mAH mYH mLH m6H m2H mTH m8H m3H mVH m1H 
+miaH mioH mieH miAH miYH miLH mi6H mi2H miTH mi8H mi3H miVH mi1H 
+muaH muoH mueH muEH muYH muLH mu6H mu2H muTH mu8H mu3H muVH mu1H 
+waH woH weH wEH wAH wYH wLH w6H w2H wTH w8H w3H wVH w1H 
+wiaH wioH wieH wiAH wiYH wiLH wi6H wi2H wiTH wi8H wi3H wiVH wi1H 
+jaH joH jeH jEH jAH jYH jLH j6H j2H jTH j8H j3H jVH j1H 
+jiaH jioH jieH jiAH jiYH jiLH ji6H ji2H jiTH ji8H ji3H jiVH ji1H 
+juaH juoH jueH juEH juYH juLH ju6H ju2H juTH ju8H ju3H juVH ju1H 
+qaH qoH qeH qEH qAH qYH qLH q6H q2H qTH q8H q3H qVH q1H 
+qiaH qioH qieH qiAH qiYH qiLH qi6H qi2H qiTH qi8H qi3H qiVH qi1H 
+quaH quoH queH quEH quYH quLH qu6H qu2H quTH qu8H qu3H quVH qu1H 
+xaH xoH xeH xEH xAH xYH xLH x6H x2H xTH x8H x3H xVH x1H 
+xiaH xioH xieH xiAH xiYH xiLH xi6H xi2H xiTH xi8H xi3H xiVH xi1H 
+xuaH xuoH xueH xuEH xuYH xuLH xu6H xu2H xuTH xu8H xu3H xuVH xu1H 
+yaH yoH yeH yEH yAH yYH yLH y6H y2H yTH y8H y3H yVH y1H 
+yiaH yioH yieH yiAH yiYH yiLH yi6H yi2H yiTH yi8H yi3H yiVH yi1H 
+yuaH yuoH yueH yuEH yuYH yuLH yu6H yu2H yuTH yu8H yu3H yuVH yu1H 
+naH noH neH nEH nAH nYH nLH n6H n2H nTH n8H n3H nVH n1H 
+niaH nioH nieH niAH niYH niLH ni6H ni2H niTH ni8H ni3H niVH ni1H 
+nuaH nuoH nueH nuEH nuYH nuLH nu6H nu2H nuTH nu8H nu3H nuVH nu1H 
+zaH zoH zeH zEH zAH zYH zLH z6H z2H zTH z8H z3H zVH z1H 
+zuaH zuoH zueH zuEH zuYH zuLH zu6H zu2H zuTH zu8H zu3H zuVH zu1H 
+DaH DoH DeH DEH DAH DYH DLH D6H D2H DTH D8H D3H DVH D1H 
+DuaH DuoH DueH DuEH DuYH DuLH Du6H Du2H DuTH Du8H Du3H DuVH Du1H 
+saH soH seH sEH sAH sYH sLH s6H s2H sTH s8H s3H sVH s1H 
+suaH suoH sueH suEH suYH suLH su6H su2H suTH su8H su3H suVH su1H 
+raH roH reH rEH rAH rYH rLH r6H r2H rTH r8H r3H rVH r1H 
+ruaH ruoH rueH ruEH ruYH ruLH ru6H ru2H ruTH ru8H ru3H ruVH ru1H 
+HaH HoH HeH HEH HAH HYH HLH H6H H2H HTH H8H H3H HVH H1H 
+HuaH HuoH HueH HuEH HuYH HuLH Hu6H Hu2H HuTH Hu8H Hu3H HuVH Hu1H 
+NaH NoH NeH NEH NAH NYH NLH N6H N2H NTH N8H N3H NVH N1H 
+NiaH NioH NieH NiAH NiYH NiLH Ni6H Ni2H NiTH Ni8H Ni3H NiVH Ni1H 
+laH loH leH lEH lAH lYH lLH l6H l2H lTH l8H l3H lVH l1H 
+liaH lioH lieH liAH liYH liLH li6H li2H liTH li8H li3H liVH li1H 
+daH doH deH dEH dAH dYH dLH d6H d2H dTH d8H d3H dVH d1H 
+diaH dioH dieH diAH diYH diLH di6H di2H diTH di8H di3H diVH di1H 
+taH toH teH tEH tAH tYH tLH t6H t2H tTH t8H t3H tVH t1H 
+tiaH tioH tieH tiAH tiYH tiLH ti6H ti2H tiTH ti8H ti3H tiVH ti1H 
+gaH goH geH gEH gAH gYH gLH g6H g2H gTH g8H g3H gVH g1H 
+giaH gioH gieH giAH giYH giLH gi6H gi2H giTH gi8H gi3H giVH gi1H 
+kaH koH keH kEH kAH kYH kLH k6H k2H kTH k8H k3H kVH k1H 
+kiaH kioH kieH kiAH kiYH kiLH ki6H ki2H kiTH ki8H ki3H kiVH ki1H 
+haH hoH heH hEH hAH hYH hLH h6H h2H hTH h8H h3H hVH h1H 
+hiaH hioH hieH hiAH hiYH hiLH hi6H hi2H hiTH hi8H hi3H hiVH hi1H 
+huaH huoH hueH huEH huYH huLH hu6H hu2H huTH hu8H hu3H huVH hu1H 
+4aH 4oH 4eH 4EH 4AH 4YH 4LH 46H 42H 4TH 48H 43H 4VH 41H 
+4iaH 4ioH 4ieH 4iAH 4iYH 4iLH 4i6H 4i2H 4iTH 4i8H 4i3H 4iVH 4i1H 
+4uaH 4uoH 4ueH 4uEH 4uYH 4uLH 4u6H 4u2H 4uTH 4u8H 4u3H 4uVH 4u1H 
+5aH 5oH 5eH 5EH 5YH 5LH 56H 52H 5TH 58H 53H 5VH 51H 
+5iaH 5ioH 5ieH 5iYH 5iLH 5i6H 5i2H 5iTH 5i8H 5i3H 5iVH 5i1H 
+vaH voH veH vEH vYH vLH v6H v2H vTH v8H v3H vVH v1H 
+viaH vioH vieH viYH viLH vi6H vi2H viTH vi8H vi3H viVH vi1H 
+FaH FoH FeH FEH FYH FLH F6H F2H FTH F8H F3H FVH F1H 
+FiaH FioH FieH FiYH FiLH Fi6H Fi2H FiTH Fi8H Fi3H FiVH Fi1H 
+7aH 7oH 7eH 7EH 7YH 7LH 76H 72H 7TH 78H 73H 7VH 71H 
+7iaH 7ioH 7ieH 7iYH 7iLH 7i6H 7i2H 7iTH 7i8H 7i3H 7iVH 7i1H 
+BaH BoH BeH BEH BYH BLH B6H B2H BTH B8H B3H BVH B1H 
+BiaH BioH BieH BiYH BiLH Bi6H Bi2H BiTH Bi8H Bi3H BiVH Bi1H 
+caH coH ceH cEH cYH cLH c6H c2H cTH c8H c3H cVH c1H 
+ciaH cioH cieH ciYH ciLH ci6H ci2H ciTH ci8H ci3H ciVH ci1H 
+faH foH feH fEH fAH fYH fLH f6H f2H fTH f8H f3H fVH f1H 
+fiaH fioH fieH fiAH fiYH fiLH fi6H fi2H fiTH fi8H fi3H fiVH fi1H 
+fuaH fuoH fueH fuEH fuYH fuLH fu6H fu2H fuTH fu8H fu3H fuVH fu1H 
+baaH booH beeH bEEH bAAH bYYH bLLH b66H b22H bTTH b88H b33H bVVH b11H 
+biaaH biooH bieeH biAAH biYYH biLLH bi66H bi22H biTTH bi88H bi33H biVVH bi11H 
+buaaH buooH bueeH buEEH buYYH buLLH bu66H bu22H buTTH bu88H bu33H buVVH bu11H 
+paaH pooH peeH pEEH pAAH pYYH pLLH p66H p22H pTTH p88H p33H pVVH p11H 
+piaaH piooH pieeH piAAH piYYH piLLH pi66H pi22H piTTH pi88H pi33H piVVH pi11H 
+puaaH puooH pueeH puEEH puYYH puLLH pu66H pu22H puTTH pu88H pu33H puVVH pu11H 
+maaH mooH meeH mEEH mAAH mYYH mLLH m66H m22H mTTH m88H m33H mVVH m11H 
+miaaH miooH mieeH miAAH miYYH miLLH mi66H mi22H miTTH mi88H mi33H miVVH mi11H 
+muaaH muooH mueeH muEEH muYYH muLLH mu66H mu22H muTTH mu88H mu33H muVVH mu11H 
+waaH wooH weeH wEEH wAAH wYYH wLLH w66H w22H wTTH w88H w33H wVVH w11H 
+wiaaH wiooH wieeH wiAAH wiYYH wiLLH wi66H wi22H wiTTH wi88H wi33H wiVVH wi11H 
+jaaH jooH jeeH jEEH jAAH jYYH jLLH j66H j22H jTTH j88H j33H jVVH j11H 
+jiaaH jiooH jieeH jiAAH jiYYH jiLLH ji66H ji22H jiTTH ji88H ji33H jiVVH ji11H 
+juaaH juooH jueeH juEEH juYYH juLLH ju66H ju22H juTTH ju88H ju33H juVVH ju11H 
+qaaH qooH qeeH qEEH qAAH qYYH qLLH q66H q22H qTTH q88H q33H qVVH q11H 
+qiaaH qiooH qieeH qiAAH qiYYH qiLLH qi66H qi22H qiTTH qi88H qi33H qiVVH qi11H 
+quaaH quooH queeH quEEH quYYH quLLH qu66H qu22H quTTH qu88H qu33H quVVH qu11H 
+xaaH xooH xeeH xEEH xAAH xYYH xLLH x66H x22H xTTH x88H x33H xVVH x11H 
+xiaaH xiooH xieeH xiAAH xiYYH xiLLH xi66H xi22H xiTTH xi88H xi33H xiVVH xi11H 
+xuaaH xuooH xueeH xuEEH xuYYH xuLLH xu66H xu22H xuTTH xu88H xu33H xuVVH xu11H 
+yaaH yooH yeeH yEEH yAAH yYYH yLLH y66H y22H yTTH y88H y33H yVVH y11H 
+yiaaH yiooH yieeH yiAAH yiYYH yiLLH yi66H yi22H yiTTH yi88H yi33H yiVVH yi11H 
+yuaaH yuooH yueeH yuEEH yuYYH yuLLH yu66H yu22H yuTTH yu88H yu33H yuVVH yu11H 
+naaH nooH neeH nEEH nAAH nYYH nLLH n66H n22H nTTH n88H n33H nVVH n11H 
+niaaH niooH nieeH niAAH niYYH niLLH ni66H ni22H niTTH ni88H ni33H niVVH ni11H 
+nuaaH nuooH nueeH nuEEH nuYYH nuLLH nu66H nu22H nuTTH nu88H nu33H nuVVH nu11H 
+zaaH zooH zeeH zEEH zAAH zYYH zLLH z66H z22H zTTH z88H z33H zVVH z11H 
+zuaaH zuooH zueeH zuEEH zuYYH zuLLH zu66H zu22H zuTTH zu88H zu33H zuVVH zu11H 
+DaaH DooH DeeH DEEH DAAH DYYH DLLH D66H D22H DTTH D88H D33H DVVH D11H 
+DuaaH DuooH DueeH DuEEH DuYYH DuLLH Du66H Du22H DuTTH Du88H Du33H DuVVH Du11H 
+saaH sooH seeH sEEH sAAH sYYH sLLH s66H s22H sTTH s88H s33H sVVH s11H 
+suaaH suooH sueeH suEEH suYYH suLLH su66H su22H suTTH su88H su33H suVVH su11H 
+raaH rooH reeH rEEH rAAH rYYH rLLH r66H r22H rTTH r88H r33H rVVH r11H 
+ruaaH ruooH rueeH ruEEH ruYYH ruLLH ru66H ru22H ruTTH ru88H ru33H ruVVH ru11H 
+HaaH HooH HeeH HEEH HAAH HYYH HLLH H66H H22H HTTH H88H H33H HVVH H11H 
+HuaaH HuooH HueeH HuEEH HuYYH HuLLH Hu66H Hu22H HuTTH Hu88H Hu33H HuVVH Hu11H 
+NaaH NooH NeeH NEEH NAAH NYYH NLLH N66H N22H NTTH N88H N33H NVVH N11H 
+NiaaH NiooH NieeH NiAAH NiYYH NiLLH Ni66H Ni22H NiTTH Ni88H Ni33H NiVVH Ni11H 
+laaH looH leeH lEEH lAAH lYYH lLLH l66H l22H lTTH l88H l33H lVVH l11H 
+liaaH liooH lieeH liAAH liYYH liLLH li66H li22H liTTH li88H li33H liVVH li11H 
+daaH dooH deeH dEEH dAAH dYYH dLLH d66H d22H dTTH d88H d33H dVVH d11H 
+diaaH diooH dieeH diAAH diYYH diLLH di66H di22H diTTH di88H di33H diVVH di11H 
+taaH tooH teeH tEEH tAAH tYYH tLLH t66H t22H tTTH t88H t33H tVVH t11H 
+tiaaH tiooH tieeH tiAAH tiYYH tiLLH ti66H ti22H tiTTH ti88H ti33H tiVVH ti11H 
+gaaH gooH geeH gEEH gAAH gYYH gLLH g66H g22H gTTH g88H g33H gVVH g11H 
+giaaH giooH gieeH giAAH giYYH giLLH gi66H gi22H giTTH gi88H gi33H giVVH gi11H 
+kaaH kooH keeH kEEH kAAH kYYH kLLH k66H k22H kTTH k88H k33H kVVH k11H 
+kiaaH kiooH kieeH kiAAH kiYYH kiLLH ki66H ki22H kiTTH ki88H ki33H kiVVH ki11H 
+haaH hooH heeH hEEH hAAH hYYH hLLH h66H h22H hTTH h88H h33H hVVH h11H 
+hiaaH hiooH hieeH hiAAH hiYYH hiLLH hi66H hi22H hiTTH hi88H hi33H hiVVH hi11H 
+huaaH huooH hueeH huEEH huYYH huLLH hu66H hu22H huTTH hu88H hu33H huVVH hu11H 
+4aaH 4ooH 4eeH 4EEH 4AAH 4YYH 4LLH 466H 422H 4TTH 488H 433H 4VVH 411H 
+4iaaH 4iooH 4ieeH 4iAAH 4iYYH 4iLLH 4i66H 4i22H 4iTTH 4i88H 4i33H 4iVVH 4i11H 
+4uaaH 4uooH 4ueeH 4uEEH 4uYYH 4uLLH 4u66H 4u22H 4uTTH 4u88H 4u33H 4uVVH 4u11H 
+5aaH 5ooH 5eeH 5EEH 5YYH 5LLH 566H 522H 5TTH 588H 533H 5VVH 511H 
+5iaaH 5iooH 5ieeH 5iYYH 5iLLH 5i66H 5i22H 5iTTH 5i88H 5i33H 5iVVH 5i11H 
+vaaH vooH veeH vEEH vYYH vLLH v66H v22H vTTH v88H v33H vVVH v11H 
+viaaH viooH vieeH viYYH viLLH vi66H vi22H viTTH vi88H vi33H viVVH vi11H 
+FaaH FooH FeeH FEEH FYYH FLLH F66H F22H FTTH F88H F33H FVVH F11H 
+FiaaH FiooH FieeH FiYYH FiLLH Fi66H Fi22H FiTTH Fi88H Fi33H FiVVH Fi11H 
+7aaH 7ooH 7eeH 7EEH 7YYH 7LLH 766H 722H 7TTH 788H 733H 7VVH 711H 
+7iaaH 7iooH 7ieeH 7iYYH 7iLLH 7i66H 7i22H 7iTTH 7i88H 7i33H 7iVVH 7i11H 
+BaaH BooH BeeH BEEH BYYH BLLH B66H B22H BTTH B88H B33H BVVH B11H 
+BiaaH BiooH BieeH BiYYH BiLLH Bi66H Bi22H BiTTH Bi88H Bi33H BiVVH Bi11H 
+caaH cooH ceeH cEEH cYYH cLLH c66H c22H cTTH c88H c33H cVVH c11H 
+ciaaH ciooH cieeH ciYYH ciLLH ci66H ci22H ciTTH ci88H ci33H ciVVH ci11H 
+faaH fooH feeH fEEH fAAH fYYH fLLH f66H f22H fTTH f88H f33H fVVH f11H 
+fiaaH fiooH fieeH fiAAH fiYYH fiLLH fi66H fi22H fiTTH fi88H fi33H fiVVH fi11H 
+fuaaH fuooH fueeH fuEEH fuYYH fuLLH fu66H fu22H fuTTH fu88H fu33H fuVVH fu11H 
+b p m w j q x y n z D s r H N l d t g k h 4 5 v F 7 B c f u 
+a o e E A Y L 6 2 T 8 3 V 1 i
+bi pi mi wi ji qi xi yi ni zi Di si ri Hi Ni li di ti gi ki hi 4i 5i vi Fi 7i Bi ci fi 
+bu pu mu wu ju qu xu yu nu zu Du su ru Hu Nu lu du tu gu ku hu 4u 5u vu Fu 7u Bu cu fu
+aa oo ee EE AA YY LL 66 22 TT 88 33 VV 11
+， 。 ！ ？ ： ； “ ” （ ） 【 】`.trim().split(/\s+/);
+
+    const rawRomayin = `BA BO BE BI BU BAI BAU BOU BAE BANG BING BENG BEI BEU 
+BIA BIO BIE BYU BIAI BIAU BIU BIAE BIANG BINH BIENG BIEI BIEU 
+BWA BWO BWE BWI BWAI BWAU BWOU BWAE BWANG BWING BUNG BUI BWEU 
+PA PO PE PI PU PAI PAU POU PAE PANG PING PENG PEI PEU 
+PIA PIO PIE PYU PIAI PIAU PIU PIAE PIANG PINH PIENG PIEI PIEU 
+PWA PWO PWE PWI PWAI PWAU PWOU PWAE PWANG PWING PUNG PUI PWEU 
+MA MO ME MI MU MAI MAU MOU MAE MANG MING MENG MEI MEU 
+MIA MIO MIE MYU MIAI MIAU MIU MIAE MIANG MINH MIENG MIEI MIEU 
+MWA MWO MWE MWI MWAI MWAU MWOU MWAE MWANG MWING MUNG MUI MWEU 
+VA VO VE VI VU VAI VAU VOU VAE VANG VING VENG VEI VEU 
+VIA VIO VIE VYU VIAI VIAU VIU VIAE VIANG VINH VIENG VIEI VIEU 
+JA JO JE JI JU JAI JAU JOU JAE JANG JING JENG JEI JEU 
+JIA JIO JIE JYU JIAI JIAU JIU JIAE JIANG JINH JIENG JIEI JIEU 
+JUA JUO JUE JWI JUAI JUAU JUOU JUAE JUANG JUING JUNG JUEI JUEU 
+CHIA CHIO CHIE CHI CHYU CHIAI CHIAU CHIU CHIAE CHIANG CHINH CHIENG CHIEI CHIEU 
+CHIA CHIO CHIE CHYU CHIAI CHIAU CHIU CHIAE CHIANG CHINH CHIENG CHIEI CHIEU 
+CHUA CHUO CHUE CHWI CHUAI CHUAU CHUOU CHUAE CHUANG CHUING CHUNG CHUEI CHUEU 
+SHIA SHIO SHIE SHI SHYU SHIAI SHIAU SHIU SHIAE SHIANG SHINH SHIENG SHIEI SHIEU 
+SHIA SHIO SHIE SHYU SHIAI SHIAU SHIU SHIAE SHIANG SHINH SHIENG SHIEI SHIEU 
+SHUA SHUO SHUE SHWI SHUAI SHUAU SHUOU SHUAE SHUANG SHUING SHUNG SHUEI SHUEU 
+YA YO YE YI YU YAI YAU YOU YAE YANG YING YENG YEI YEU 
+YIA YIO YIE YU YIAI YIAU YIU YIAE YIANG YINH YIENG YIEI YIEU 
+YUA YUO YUE YUI YUAI YUAU YUOU YUAE YUANG YUING YUNG YUEI YUEU 
+NYA NYO NYE NYI NYU NYAI NYAU NYOU NYAE NYANG NYING NYENG NYEI NYEU 
+NYIA NYIO NYIE NYU NYAI NYAU NYOU NYAE NYANG NYINH NYENG NYEI NYEU 
+NUA NUO NUE NYUI NUAI NUAU NUOU NUAE NUANG NUING NUENG NUEI NUEU 
+ZA ZO ZE ZEU ZU ZAI ZAU ZOU ZAE ZANG ZING ZENG ZEI ZEU 
+ZWA ZWO ZWE ZWI ZWAI ZWAU ZWOU ZWAE ZWANG ZWING ZUNG ZUI ZWEU 
+TSA TSO TSE TSEU TSU TSAI TSAU TSOU TSAE TSANG TSING TSENG TSEI TSEU 
+TSWA TSWO TSWE TSWI TSWAI TSWAU TSWOU TSWAE TSWANG TSWING TSUNG TSUI TSWEU 
+SA SO SE SEU SU SAI SAU SOU SAE SANG SING SENG SEI SEU 
+SWA SWO SWE SWI SWAI SWAU SWOU SWAE SWANG SWING SUNG SUI SWEU 
+RA RO RE REU RU RAI RAU ROU RAE RANG RING RENG REI REU 
+RWA RWO RWE RWI RWAI RWAU RWOU RWAE RWANG RWING RUNG RUI RWEU 
+NZA NZO NZE NZEU NZU NZAI NZAU NZOU NZAE NZANG NZING NZENG NZEI NZEU 
+NZWA NZWO NZWE NZWI NZWAI NZWAU NZWOU NZWAE NZWANG NZWING NZUNG NZUI NZWEU 
+NGA NGO NGE NGI NGU NGAI NGAU NGOU NGAE NGANG NGING NGENG NGEI NGEU 
+NGIA NGIO NGIE NGYU NGIAI NGIAU NGIU NGIAE NGIANG NGINH NGIENG NGIEI NGIEU
+NA NO NE NI NU NAI NAU NOU NAE NANG NING NENG NEI NEU 
+NIA NIO NIE NYU NIAI NIAU NIU NIAE NIANG NINH NIENG NIEI NIEU 
+DA DO DE DI DU DAI DAU DOU DAE DANG DING DENG DEI DEU 
+DIA DIO DIE DYU DIAI DIAU DIU DIAE DIANG DINH DIENG DIEI DIEU 
+TA TO TE TI TU TAI TAU TOU TAE TANG TING TENG TEI TEU 
+TIA TIO TIE TYU TIAI TIAU TIU TIAE TIANG TINH TIENG TIEI TIEU 
+GA GO GE GI GU GAI GAU GOU GAE GANG GING GENG GEI GEU 
+GIA GIO GIE GYU GIAI GIAU GIU GIAE GIANG GINH GIENG GIEI GIEU 
+KA KO KE KI KU KAI KAU KOU KAE KANG KING KENG KEI KEU 
+KIA KIO KIE KYU KIAI KIAU KIU KIAE KIANG KINH KIENG KIEI KIEU 
+HA HO HE HI HU HAI HAU HOU HAE HANG HING HENG HEI HEU 
+HIA HIO HIE HYU HIAI HIAU HIU HIAE HIANG HINH HIENG HIEI HIEU 
+HYUA HYUO HYUE HYUI HYUAI HYUAU HYUOU HYUAE HYUANG HYUING HYUNG HYUEI HYUEU 
+A O E I U AI AU OU AE ANG ING ENG EI EU 
+IA IO IE IYU IAI IAU IU IAE IANG INH IENG IEI IEU 
+IUA IUO IUE IUI IUAI IUAU IUOU IUAE IUANG IUING IUNG IUEI IUEU 
+NGWA NGWO NGWE NGWI NGWAI NGWAU NGWOU NGWAE NGWANG NGWING NGUNG NGUI NGWEU 
+NGYUA NGYUO NGYUE NGYUAI NGYUAU NGYUOU NGYUAE NGYUANG NGYUINH NGYUNG NGYUEI NGYUEU 
+NWA NWO NWE NWI NWAI NWAU NWOU NWAE NWANG NWING NUNG NUI NWEU 
+NYUA NYUO NYUE NYUAI NYUAU NYUOU NYUAE NYUANG NYUINH NYUNG NYUEI NYUEU 
+DWA DWO DWE DWI DWAI DWAU DWOU DWAE DWANG DWING DUNG DUI DWEU 
+DYUA DYUO DYUE DYUAI DYUAU DYUOU DYUAE DYUANG DYUINH DYUNG DYUEI DYUEU 
+TWA TWO TWE TWI TWAI TWAU TWOU TWAE TWANG TWING TUNG TUI TWEU 
+TYUA TYUO TYUE TYUAI TYUAU TYUOU TYUAE TYUANG TYUINH TYUNG TYUEI TYUEU 
+GWA GWO GWE GWI GWAI GWAU GWOU GWAE GWANG GWING GUNG GUI GWEU 
+GYUA GYUO GYUE GYUAI GYUAU GYUOU GYUAE GYUANG GYUINH GYUNG GYUEI GYUEU 
+KWA KWO KWE KWI KWAI KWAU KWOU KWAE KWANG KWING KUNG KUI KWEU 
+KYUA KYUO KYUE KYUAI KYUAU KYUOU KYUAE KYUANG KYUINH KYUNG KYUEI KYUEU 
+FA FO FE FI FU FAI FAU FOU FAE FANG FING FENG FEI FEU 
+FIA FIO FIE FYU FIAI FIAU FIU FIAE FIANG FINH FIENG FIEI FIEU 
+FWA FWO FWE FWI FWAI FWAU FWOU FWAE FWANG FWING TUNG TUI FWEU 
+BĀ BŌ BĒ BĪ BŪ BĀI BĀU BŌU BĀE BĀNG BĪNG BĒNG BĒI BEŪ 
+BIĀ BIŌ BIĒ BYŪ BIĀI BIĀU BIŪ BIĀE BIĀNG BĪNH BIĒNG BIĒI BIEŪ 
+BWĀ BWŌ BWĒ BWĪ BWĀI BWĀU BWŌU BWĀE BWĀNG BWĪNG BŪNG BUĪ BWEŪ 
+PĀ PŌ PĒ PĪ PŪ PĀI PĀU PŌU PĀE PĀNG PĪNG PĒNG PĒI PEŪ 
+PIĀ PIŌ PIĒ PYŪ PIĀI PIĀU PIŪ PIĀE PIĀNG PĪNH PIĒNG PIĒI PIEŪ 
+PWĀ PWŌ PWĒ PWĪ PWĀI PWĀU PWŌU PWĀE PWĀNG PWĪNG PŪNG PUĪ PWEŪ 
+MĀ MŌ MĒ MĪ MŪ MĀI MĀU MŌU MĀE MĀNG MĪNG MĒNG MĒI MEŪ 
+MIĀ MIŌ MIĒ MYŪ MIĀI MIĀU MIŪ MIĀE MIĀNG MĪNH MIĒNG MIĒI MIEŪ 
+MWĀ MWŌ MWĒ MWĪ MWĀI MWĀU MWŌU MWĀE MWĀNG MWĪNG MŪNG MUĪ MWEŪ 
+VĀ VŌ VĒ VĪ VŪ VĀI VĀU VŌU VĀE VĀNG VĪNG VĒNG VĒI VEŪ 
+VIĀ VIŌ VIĒ VYŪ VIĀI VIĀU VIŪ VIĀE VIĀNG VĪNH VIĒNG VIĒI VIEŪ 
+JĀ JŌ JĒ JĪ JŪ JĀI JĀU JŌU JĀE JĀNG JĪNG JĒNG JĒI JEŪ 
+JIĀ JIŌ JIĒ JYŪ JIĀI JIĀU JIŪ JIĀE JIĀNG JĪNH JIĒNG JIĒI JIEŪ 
+JUĀ JUŌ JUĒ JWĪ JUĀI JUĀU JUŌU JUĀE JUĀNG JUĪNG JŪNG JUĒI JUEŪ 
+CHIĀ CHIŌ CHIĒ CHĪ CHYŪ CHIĀI CHIĀU CHIŪ CHIĀE CHIĀNG CHĪNG CHIĒNG CHIĒI CHIEŪ 
+CHIĀ CHIŌ CHIĒ CHYŪ CHIĀI CHIĀU CHIŪ CHIĀE CHIĀNG CHĪNH CHIĒNG CHIĒI CHIEŪ 
+CHUĀ CHUŌ CHUĒ CHWĪ CHUĀI CHUĀU CHUŌU CHUĀE CHUĀNG CHUĪNG CHŪNG CHUĒI CHUEŪ 
+SHIĀ SHIŌ SHIĒ SHĪ SHYŪ SHIĀI SHIĀU SHIŪ SHIĀE SHIĀNG SHĪNG SHIĒNG SHIĒI SHIEŪ 
+SHIĀ SHIŌ SHIĒ SHYŪ SHIĀI SHIĀU SHIŪ SHIĀE SHIĀNG SHĪNH SHIĒNG SHIĒI SHIEŪ 
+SHUĀ SHUŌ SHUĒ SHWĪ SHUĀI SHUĀU SHUŌU SHUĀE SHUĀNG SHUĪNG SHŪNG SHUĒI SHUEŪ 
+YĀ YŌ YĒ YĪ YŪ YĀI YĀU YŌU YĀE YĀNG YĪNG YĒNG YĒI YEŪ 
+YIĀ YIŌ YIĒ YŪ YIĀI YIĀU YIŪ YIĀE YIĀNG YĪNH YIĒNG YIĒI YIEŪ 
+YUĀ YUŌ YUĒ YUĪ YUĀI YUĀU YUŌU YUĀE YUĀNG YUĪNG YŪNG YUĒI YUEŪ 
+NYĀ NYŌ NYĒ NYĪ NYŪ NYĀI NYĀU NYŌU NYĀE NYĀNG NYĪNG NYĒNG NYĒI NYEŪ 
+NYIĀ NYIŌ NYIĒ NYŪ NYĀI NYĀU NYŌU NYĀE NYĀNG NYĪNH NYĒNG NYĒI NYEŪ 
+NUĀ NUŌ NUĒ NYUĪ NUĀI NUĀU NUŌU NUĀE NUĀNG NUĪNG NUĒNG NUĒI NUEŪ 
+ZĀ ZŌ ZĒ ZEŪ ZŪ ZĀI ZĀU ZŌU ZĀE ZĀNG ZĪNG ZĒNG ZĒI ZEŪ 
+ZWĀ ZWŌ ZWĒ ZWĪ ZWĀI ZWĀU ZWŌU ZWĀE ZWĀNG ZWĪNG ZŪNG ZUĪ ZWEŪ 
+TSĀ TSŌ TSĒ TSEŪ TSŪ TSĀI TSĀU TSŌU TSĀE TSĀNG TSĪNG TSĒNG TSĒI TSEŪ 
+TSWĀ TSWŌ TSWĒ TSWĪ TSWĀI TSWĀU TSWŌU TSWĀE TSWĀNG TSWĪNG TSŪNG TSUĪ TSWEŪ 
+SĀ SŌ SĒ SEŪ SŪ SĀI SĀU SŌU SĀE SĀNG SĪNG SĒNG SĒI SEŪ 
+SWĀ SWŌ SWĒ SWĪ SWĀI SWĀU SWŌU SWĀE SWĀNG SWĪNG SŪNG SUĪ SWEŪ 
+RĀ RŌ RĒ REŪ RŪ RĀI RĀU RŌU RĀE RĀNG RĪNG RĒNG RĒI REŪ 
+RWĀ RWŌ RWĒ RWĪ RWĀI RWĀU RWŌU RWĀE RWĀNG RWĪNG RŪNG RUĪ RWEŪ 
+NZĀ NZŌ NZĒ NZEŪ NZŪ NZĀI NZĀU NZŌU NZĀE NZĀNG NZĪNG NZĒNG NZĒI NZEŪ 
+NZWĀ NZWŌ NZWĒ NZWĪ NZWĀI NZWĀU NZWŌU NZWĀE NZWĀNG NZWĪNG NZŪNG NZUĪ NZWEŪ 
+NGĀ NGŌ NGĒ NGĪ NGŪ NGĀI NGĀU NGŌU NGĀE NGĀNG NGĪNG NGĒNG NGĒI NGEŪ 
+NGIĀ NGIŌ NGIĒ NGYŪ NGIĀI NGIĀU NGIŪ NGIĀE NGIĀNG NGĪNH NGIĒNG NGIĒI NGIEU
+NĀ NŌ NĒ NĪ NŪ NĀI NĀU NŌU NĀE NĀNG NĪNG NĒNG NĒI NEŪ 
+NIĀ NIŌ NIĒ NYŪ NIĀI NIĀU NIŪ NIĀE NIĀNG NĪNH NIĒNG NIĒI NIEŪ 
+DĀ DŌ DĒ DĪ DŪ DĀI DĀU DŌU DĀE DĀNG DĪNG DĒNG DĒI DEŪ 
+DIĀ DIŌ DIĒ DYŪ DIĀI DIĀU DIŪ DIĀE DIĀNG DĪNH DIĒNG DIĒI DIEŪ 
+TĀ TŌ TĒ TĪ TŪ TĀI TĀU TŌU TĀE TĀNG TĪNG TĒNG TĒI TEŪ 
+TIĀ TIŌ TIĒ TYŪ TIĀI TIĀU TIŪ TIĀE TIĀNG TĪNH TIĒNG TIĒI TIEŪ 
+GĀ GŌ GĒ GĪ GŪ GĀI GĀU GŌU GĀE GĀNG GĪNG GĒNG GĒI GEŪ 
+GIĀ GIŌ GIĒ GYŪ GIĀI GIĀU GIŪ GIĀE GIĀNG GĪNH GIĒNG GIĒI GIEŪ 
+KĀ KŌ KĒ KĪ KŪ KĀI KĀU KŌU KĀE KĀNG KĪNG KĒNG KĒI KEŪ 
+KIĀ KIŌ KIĒ KYŪ KIĀI KIĀU KIŪ KIĀE KIĀNG KĪNH KIĒNG KIĒI KIEŪ 
+HĀ HŌ HĒ HĪ HŪ HĀI HĀU HŌU HĀE HĀNG HĪNG HĒNG HĒI HEŪ 
+HIĀ HIŌ HIĒ HYŪ HIĀI HIĀU HIŪ HIĀE HIĀNG HĪNH HIĒNG HIĒI HIEŪ 
+HYUĀ HYUŌ HYUĒ HYUĪ HYUĀI HYUĀU HYUŌU HYUĀE HYUĀNG HYUĪNG HYŪNG HYUĒI HYUEŪ 
+Ā Ō Ē Ī Ū ĀI ĀU ŌU ĀE ĀNG ĪNG ĒNG ĒI EŪ 
+IĀ IŌ IĒ IYŪ IĀI IĀU IŪ IĀE IĀNG ĪNH IĒNG IĒI IEŪ 
+IUĀ IUŌ IUĒ IUĪ IUĀI IUĀU IUŌU IUĀE IUĀNG IUĪNG IŪNG IUĒI IUEŪ 
+NGWĀ NGWŌ NGWĒ NGWĪ NGWĀI NGWĀU NGWŌU NGWĀE NGWĀNG NGWĪNG NGŪNG NGUĪ NGWEŪ 
+NGYUĀ NGYUŌ NGYUĒ NGYUĀI NGYUĀU NGYUŌU NGYUĀE NGYUĀNG NGYUĪNH NGYŪNG NGYUĒI NGYUEŪ 
+NWĀ NWŌ NWĒ NWĪ NWĀI NWĀU NWŌU NWĀE NWĀNG NWĪNG NŪNG NUĪ NWEŪ 
+NYUĀ NYUŌ NYUĒ NYUĀI NYUĀU NYUŌU NYUĀE NYUĀNG NYUĪNH NYŪNG NYUĒI NYUEŪ 
+DWĀ DWŌ DWĒ DWĪ DWĀI DWĀU DWŌU DWĀE DWĀNG DWĪNG DŪNG DUĪ DWEŪ 
+DYUĀ DYUŌ DYUĒ DYUĀI DYUĀU DYUŌU DYUĀE DYUĀNG DYUĪNH DYŪNG DYUĒI DYUEŪ 
+TWĀ TWŌ TWĒ TWĪ TWĀI TWĀU TWŌU TWĀE TWĀNG TWĪNG TŪNG TUĪ TWEŪ 
+TYUĀ TYUŌ TYUĒ TYUĀI TYUĀU TYUŌU TYUĀE TYUĀNG TYUĪNH TYŪNG TYUĒI TYUEŪ 
+GWĀ GWŌ GWĒ GWĪ GWĀI GWĀU GWŌU GWĀE GWĀNG GWĪNG GŪNG GUĪ GWEŪ 
+GYUĀ GYUŌ GYUĒ GYUĀI GYUĀU GYUŌU GYUĀE GYUĀNG GYUĪNH GYŪNG GYUĒI GYUEŪ 
+KWĀ KWŌ KWĒ KWĪ KWĀI KWĀU KWŌU KWĀE KWĀNG KWĪNG KŪNG KUĪ KWEŪ 
+KYUĀ KYUŌ KYUĒ KYUĀI KYUĀU KYUŌU KYUĀE KYUĀNG KYUĪNH KYŪNG KYUĒI KYUEŪ 
+FĀ FŌ FĒ FĪ FŪ FĀI FĀU FŌU FĀE FĀNG FĪNG FĒNG FĒI FEŪ 
+FIĀ FIŌ FIĒ FYŪ FIĀI FIAŌ FIŪ FIĀE FIĀNG FĪNH FIĒNG FIĒI FIEŪ 
+FWĀ FWŌ FWĒ FWĪ FWĀI FWĀU FWŌU FWĀE FWĀNG FWĪNG TŪNG TUĪ FWEŪ 
+BAN BON BEN BIN BUN BAIN BAUN BOUN BAEN BANGN BINGN BENGN BEIN BEUN 
+BIAN BION BIEN BYUN BIAIN BIAUN BIUN BIAEN BIANGN BINHN BIENGN BIEIN BIEUN 
+BWAN BWON BWEN BWIN BWAIN BWAUN BWOUN BWAEN BWANGN BWINGN BUNGN BUIN BWEUN 
+PAN PON PEN PIN PUN PAIN PAUN POUN PAEN PANGN PINGN PENGN PEIN PEUN 
+PIAN PION PIEN PYUN PIAIN PIAUN PIUN PIAEN PIANGN PINHN PIENGN PIEIN PIEUN 
+PWAN PWON PWEN PWIN PWAIN PWAUN PWOUN PWAEN PWANGN PWINGN PUNGN PUIN PWEUN 
+MAN MON MEN MIN MUN MAIN MAUN MOUN MAEN MANGN MINGN MENGN MEIN MEUN 
+MIAN MION MIEN MYUN MIAIN MIAUN MIUN MIAEN MIANGN MINHN MIENGN MIEIN MIEUN 
+MWAN MWON MWEN MWIN MWAIN MWAUN MWOUN MWAEN MWANGN MWINGN MUNGN MUIN MWEUN 
+VAN VON VEN VIN VUN VAIN VAUN VOUN VAEN VANGN VINGN VENGN VEIN VEUN 
+VIAN VION VIEN VYUN VIAIN VIAUN VIUN VIAEN VIANGN VINHN VIENGN VIEIN VIEUN 
+JAN JON JEN JIN JUN JAIN JAUN JOUN JAEN JANGN JINGN JENGN JEIN JEUN 
+JIAN JION JIEN JYUN JIAIN JIAUN JIUN JIAEN JIANGN JINHN JIENGN JIEIN JIEUN 
+JUAN JUON JUEN JWIN JUAIN JUAUN JUOUN JUAEN JUANGN JUINGN JUNGN JUEIN JUEUN 
+CHIAN CHION CHIEN CHIN CHYUN CHIAIN CHIAUN CHIUN CHIAEN CHIANGN CHINHN CHIENGN CHIEIN CHIEUN 
+CHIAN CHION CHIEN CHYUN CHIAIN CHIAUN CHIUN CHIAEN CHIANGN CHINHN CHIENGN CHIEIN CHIEUN 
+CHUAN CHUON CHUEN CHWIN CHUAIN CHUAUN CHUOUN CHUAEN CHUANGN CHUINGN CHUNGN CHUEIN CHUEUN 
+SHIAN SHION SHIEN SHIN SHYUN SHIAIN SHIAUN SHIUN SHIAEN SHIANGN SHINHN SHIENGN SHIEIN SHIEUN 
+SHIAN SHION SHIEN SHYUN SHIAIN SHIAUN SHIUN SHIAEN SHIANGN SHINHN SHIENGN SHIEIN SHIEUN 
+SHUAN SHUON SHUEN SHWIN SHUAIN SHUAUN SHUOUN SHUAEN SHUANGN SHUINGN SHUNGN SHUEIN SHUEUN 
+YAN YON YEN YIN YUN YAIN YAUN YOUN YAEN YANGN YINGN YENGN YEIN YEUN 
+YIAN YION YIEN YUN YIAIN YIAUN YIUN YIAEN YIANGN YINHN YIENGN YIEIN YIEUN 
+YUAN YUON YUEN YUIN YUAIN YUAUN YUOUN YUAEN YUANGN YUINGN YUNGN YUEIN YUEUN 
+NYAN NYON NYEN NYIN NYUN NYAIN NYAUN NYOUN NYAEN NYANGN NYINGN NYENGN NYEIN NYEUN 
+NYIAN NYION NYIEN NYUN NYAIN NYAUN NYOUN NYAEN NYANGN NYINHN NYENGN NYEIN NYEUN 
+NUAN NUON NUEN NYUIN NUAIN NUAUN NUOUN NUAEN NUANGN NUINGN NUENGN NUEIN NUEUN 
+ZAN ZON ZEN ZEUN ZUN ZAIN ZAUN ZOUN ZAEN ZANGN ZINGN ZENGN ZEIN ZEUN 
+ZWAN ZWON ZWEN ZWIN ZWAIN ZWAUN ZWOUN ZWAEN ZWANGN ZWINGN ZUNGN ZUIN ZWEUN 
+TSAN TSON TSEN TSEUN TSUN TSAIN TSAUN TSOUN TSAEN TSANGN TSINGN TSENGN TSEIN TSEUN 
+TSWAN TSWON TSWEN TSWIN TSWAIN TSWAUN TSWOUN TSWAEN TSWANGN TSWINGN TSUNGN TSUIN TSWEUN 
+SAN SON SEN SEUN SUN SAIN SAUN SOUN SAEN SANGN SINGN SENGN SEIN SEUN 
+SWAN SWON SWEN SWIN SWAIN SWAUN SWOUN SWAEN SWANGN SWINGN SUNGN SUIN SWEUN 
+RAN RON REN REUN RUN RAIN RAUN ROUN RAEN RANGN RINGN RENGN REIN REUN 
+RWAN RWON RWEN RWIN RWAIN RWAUN RWOUN RWAEN RWANGN RWINGN RUNGN RUIN RWEUN 
+NZAN NZON NZEN NZEUN NZUN NZAIN NZAUN NZOUN NZAEN NZANGN NZINGN NZENGN NZEIN NZEUN 
+NZWAN NZWON NZWEN NZWIN NZWAIN NZWAUN NZWOUN NZWAEN NZWANGN NZWINGN NZUNGN NZUIN NZWEUN 
+NGAN NGON NGEN NGIN NGUN NGAIN NGAUN NGOUN NGAEN NGANGN NGINGN NGENGN NGEIN NGEUN 
+NGIAN NGION NGIEN NGYUN NGIAIN NGIAUN NGIUN NGIAEN NGIANGN NGINHN NGIENGN NGIEIN NGIEU
+NAN NON NEN NIN NUN NAIN NAUN NOUN NAEN NANGN NINGN NENGN NEIN NEUN 
+NIAN NION NIEN NYUN NIAIN NIAUN NIUN NIAEN NIANGN NINHN NIENGN NIEIN NIEUN 
+DAN DON DEN DIN DUN DAIN DAUN DOUN DAEN DANGN DINGN DENGN DEIN DEUN 
+DIAN DION DIEN DYUN DIAIN DIAUN DIUN DIAEN DIANGN DINHN DIENGN DIEIN DIEUN 
+TAN TON TEN TIN TUN TAIN TAUN TOUN TAEN TANGN TINGN TENGN TEIN TEUN 
+TIAN TION TIEN TYUN TIAIN TIAUN TIUN TIAEN TIANGN TINHN TIENGN TIEIN TIEUN 
+GAN GON GEN GIN GUN GAIN GAUN GOUN GAEN GANGN GINGN GENGN GEIN GEUN 
+GIAN GION GIEN GYUN GIAIN GIAUN GIUN GIAEN GIANGN GINHN GIENGN GIEIN GIEUN 
+KAN KON KEN KIN KUN KAIN KAUN KOUN KAEN KANGN KINGN KENGN KEIN KEUN 
+KIAN KION KIEN KYUN KIAIN KIAUN KIUN KIAEN KIANGN KINHN KIENGN KIEIN KIEUN 
+HAN HON HEN HIN HUN HAIN HAUN HOUN HAEN HANGN HINGN HENGN HEIN HEUN 
+HIAN HION HIEN HYUN HIAIN HIAUN HIUN HIAEN HIANGN HINHN HIENGN HIEIN HIEUN 
+HYUAN HYUON HYUEN HYUIN HYUAIN HYUAUN HYUOUN HYUAEN HYUANGN HYUINGN HYUNGN HYUEIN HYUEUN 
+AN ON EN IN UN AIN AUN OUN AEN ANGN INGN ENGN EIN EUN 
+IAN ION IEN IYUN IAIN IAUN IUN IAEN IANGN INHN IENGN IEIN IEUN 
+IUAN IUON IUEN IUIN IUAIN IUAUN IUOUN IUAEN IUANGN IUINGN IUNGN IUEIN IUEUN 
+NGWAN NGWON NGWEN NGWIN NGWAIN NGWAUN NGWOUN NGWAEN NGWANGN NGWINGN NGUNGN NGUIN NGWEUN 
+NGYUAN NGYUON NGYUEN NGYUAIN NGYUAUN NGYUOUN NGYUAEN NGYUANGN NGYUINHN NGYUNGN NGYUEIN NGYUEUN 
+NWAN NWON NWEN NWIN NWAIN NWAUN NWOUN NWAEN NWANGN NWINGN NUNGN NUIN NWEUN 
+NYUAN NYUON NYUEN NYUAIN NYUAUN NYUOUN NYUAEN NYUANGN NYUINHN NYUNGN NYUEIN NYUEUN 
+DWAN DWON DWEN DWIN DWAIN DWAUN DWOUN DWAEN DWANGN DWINGN DUNGN DUIN DWEUN 
+DYUAN DYUON DYUEN DYUAIN DYUAUN DYUOUN DYUAEN DYUANGN DYUINHN DYUNGN DYUEIN DYUEUN 
+TWAN TWON TWEN TWIN TWAIN TWAUN TWOUN TWAEN TWANGN TWINGN TUNGN TUIN TWEUN 
+TYUAN TYUON TYUEN TYUAIN TYUAUN TYUOUN TYUAEN TYUANGN TYUINHN TYUNGN TYUEIN TYUEUN 
+GWAN GWON GWEN GWIN GWAIN GWAUN GWOUN GWAEN GWANGN GWINGN GUNGN GUIN GWEUN 
+GYUAN GYUON GYUEN GYUAIN GYUAUN GYUOUN GYUAEN GYUANGN GYUINHN GYUNGN GYUEIN GYUEUN 
+KWAN KWON KWEN KWIN KWAIN KWAUN KWOUN KWAEN KWANGN KWINGN KUNGN KUIN KWEUN 
+KYUAN KYUON KYUEN KYUAIN KYUAUN KYUOUN KYUAEN KYUANGN KYUINHN KYUNGN KYUEIN KYUEUN 
+FAN FON FEN FIN FUN FAIN FAUN FOUN FAEN FANGN FINGN FENGN FEIN FEUN 
+FIAN FION FIEN FYUN FIAIN FIAUN FIUN FIAEN FIANGN FINHN FIENGN FIEIN FIEUN 
+FWAN FWON FWEN FWIN FWAIN FWAUN FWOUN FWAEN FWANGN FWINGN TUNGN TUIN FWEUN 
+BĀN BŌN BĒN BĪN BŪN BĀIN BĀUN BŌUN BĀEN BĀNGN BĪNGN BĒNGN BĒIN BEŪN 
+BIĀN BIŌN BIĒN BYŪN BIĀIN BIĀUN BIŪN BIĀEN BIĀNGN BĪNHN BIĒNGN BIĒIN BIEŪN 
+BWĀN BWŌN BWĒN BWĪN BWĀIN BWĀUN BWŌUN BWĀEN BWĀNGN BWĪNGN BŪNGN BUĪN BWEŪN 
+PĀN PŌN PĒN PĪN PŪN PĀIN PĀUN PŌUN PĀEN PĀNGN PĪNGN PĒNGN PĒIN PEŪN 
+PIĀN PIŌN PIĒN PYŪN PIĀIN PIĀUN PIŪN PIĀEN PIĀNGN PĪNHN PIĒNGN PIĒIN PIEŪN 
+PWĀN PWŌN PWĒN PWĪN PWĀIN PWĀUN PWŌUN PWĀEN PWĀNGN PWĪNGN PŪNGN PUĪN PWEŪN 
+MĀN MŌN MĒN MĪN MŪN MĀIN MĀUN MŌUN MĀEN MĀNGN MĪNGN MĒNGN MĒIN MEŪN 
+MIĀN MIŌN MIĒN MYŪN MIĀIN MIĀUN MIŪN MIĀEN MIĀNGN MĪNHN MIĒNGN MIĒIN MIEŪN 
+MWĀN MWŌN MWĒN MWĪN MWĀIN MWĀUN MWŌUN MWĀEN MWĀNGN MWĪNGN MŪNGN MUĪN MWEŪN 
+VĀN VŌN VĒN VĪN VŪN VĀIN VĀUN VŌUN VĀEN VĀNGN VĪNGN VĒNGN VĒIN VEŪN 
+VIĀN VIŌN VIĒN VYŪN VIĀIN VIĀUN VIŪN VIĀEN VIĀNGN VĪNHN VIĒNGN VIĒIN VIEŪN 
+JĀN JŌN JĒN JĪN JŪN JĀIN JĀUN JŌUN JĀEN JĀNGN JĪNGN JĒNGN JĒIN JEŪN 
+JIĀN JIŌN JIĒN JYŪN JIĀIN JIĀUN JIŪN JIĀEN JIĀNGN JĪNHN JIĒNGN JIĒIN JIEŪN 
+JUĀN JUŌN JUĒN JWĪN JUĀIN JUĀUN JUŌUN JUĀEN JUĀNGN JUĪNGN JŪNGN JUĒIN JUEŪN 
+CHIĀN CHIŌN CHIĒN CHĪN CHYŪN CHIĀIN CHIĀUN CHIŪN CHIĀEN CHIĀNGN CHĪNGN CHIĒNGN CHIĒIN CHIEŪN 
+CHIĀN CHIŌN CHIĒN CHYŪN CHIĀIN CHIĀUN CHIŪN CHIĀEN CHIĀNGN CHĪNHN CHIĒNGN CHIĒIN CHIEŪN 
+CHUĀN CHUŌN CHUĒN CHWĪN CHUĀIN CHUĀUN CHUŌUN CHUĀEN CHUĀNGN CHUĪNGN CHŪNGN CHUĒIN CHUEŪN 
+SHIĀN SHIŌN SHIĒN SHĪN SHYŪN SHIĀIN SHIĀUN SHIŪN SHIĀEN SHIĀNGN SHĪNGN SHIĒNGN SHIĒIN SHIEŪN 
+SHIĀN SHIŌN SHIĒN SHYŪN SHIĀIN SHIĀUN SHIŪN SHIĀEN SHIĀNGN SHĪNHN SHIĒNGN SHIĒIN SHIEŪN 
+SHUĀN SHUŌN SHUĒN SHWĪN SHUĀIN SHUĀUN SHUŌUN SHUĀEN SHUĀNGN SHUĪNGN SHŪNGN SHUĒIN SHUEŪN 
+YĀN YŌN YĒN YĪN YŪN YĀIN YĀUN YŌUN YĀEN YĀNGN YĪNGN YĒNGN YĒIN YEŪN 
+YIĀN YIŌN YIĒN YŪN YIĀIN YIĀUN YIŪN YIĀEN YIĀNGN YĪNHN YIĒNGN YIĒIN YIEŪN 
+YUĀN YUŌN YUĒN YUĪN YUĀIN YUĀUN YUŌUN YUĀEN YUĀNGN YUĪNGN YŪNGN YUĒIN YUEŪN 
+NYĀN NYŌN NYĒN NYĪN NYŪN NYĀIN NYĀUN NYŌUN NYĀEN NYĀNGN NYĪNGN NYĒNGN NYĒIN NYEŪN 
+NYIĀN NYIŌN NYIĒN NYŪN NYĀIN NYĀUN NYŌUN NYĀEN NYĀNGN NYĪNHN NYĒNGN NYĒIN NYEŪN 
+NUĀN NUŌN NUĒN NYUĪN NUĀIN NUĀUN NUŌUN NUĀEN NUĀNGN NUĪNGN NUĒNGN NUĒIN NUEŪN 
+ZĀN ZŌN ZĒN ZEŪN ZŪN ZĀIN ZĀUN ZŌUN ZĀEN ZĀNGN ZĪNGN ZĒNGN ZĒIN ZEŪN 
+ZWĀN ZWŌN ZWĒN ZWĪN ZWĀIN ZWĀUN ZWŌUN ZWĀEN ZWĀNGN ZWĪNGN ZŪNGN ZUĪN ZWEŪN 
+TSĀN TSŌN TSĒN TSEŪN TSŪN TSĀIN TSĀUN TSŌUN TSĀEN TSĀNGN TSĪNGN TSĒNGN TSĒIN TSEŪN 
+TSWĀN TSWŌN TSWĒN TSWĪN TSWĀIN TSWĀUN TSWŌUN TSWĀEN TSWĀNGN TSWĪNGN TSŪNGN TSUĪN TSWEŪN 
+SĀN SŌN SĒN SEŪN SŪN SĀIN SĀUN SŌUN SĀEN SĀNGN SĪNGN SĒNGN SĒIN SEŪN 
+SWĀN SWŌN SWĒN SWĪN SWĀIN SWĀUN SWŌUN SWĀEN SWĀNGN SWĪNGN SŪNGN SUĪN SWEŪN 
+RĀN RŌN RĒN REŪN RŪN RĀIN RĀUN RŌUN RĀEN RĀNGN RĪNGN RĒNGN RĒIN REŪN 
+RWĀN RWŌN RWĒN RWĪN RWĀIN RWĀUN RWŌUN RWĀEN RWĀNGN RWĪNGN RŪNGN RUĪN RWEŪN 
+NZĀN NZŌN NZĒN NZEŪN NZŪN NZĀIN NZĀUN NZŌUN NZĀEN NZĀNGN NZĪNGN NZĒNGN NZĒIN NZEŪN 
+NZWĀN NZWŌN NZWĒN NZWĪN NZWĀIN NZWĀUN NZWŌUN NZWĀEN NZWĀNGN NZWĪNGN NZŪNGN NZUĪN NZWEŪN 
+NGĀN NGŌN NGĒN NGĪN NGŪN NGĀIN NGĀUN NGŌUN NGĀEN NGĀNGN NGĪNGN NGĒNGN NGĒIN NGEŪN 
+NGIĀN NGIŌN NGIĒN NGYŪN NGIĀIN NGIĀUN NGIŪN NGIĀEN NGIĀNGN NGĪNHN NGIĒNGN NGIĒIN NGIEU
+NĀN NŌN NĒN NĪN NŪN NĀIN NĀUN NŌUN NĀEN NĀNGN NĪNGN NĒNGN NĒIN NEŪN 
+NIĀN NIŌN NIĒN NYŪN NIĀIN NIĀUN NIŪN NIĀEN NIĀNGN NĪNHN NIĒNGN NIĒIN NIEŪN 
+DĀN DŌN DĒN DĪN DŪN DĀIN DĀUN DŌUN DĀEN DĀNGN DĪNGN DĒNGN DĒIN DEŪN 
+DIĀN DIŌN DIĒN DYŪN DIĀIN DIĀUN DIŪN DIĀEN DIĀNGN DĪNHN DIĒNGN DIĒIN DIEŪN 
+TĀN TŌN TĒN TĪN TŪN TĀIN TĀUN TŌUN TĀEN TĀNGN TĪNGN TĒNGN TĒIN TEŪN 
+TIĀN TIŌN TIĒN TYŪN TIĀIN TIĀUN TIŪN TIĀEN TIĀNGN TĪNHN TIĒNGN TIĒIN TIEŪN 
+GĀN GŌN GĒN GĪN GŪN GĀIN GĀUN GŌUN GĀEN GĀNGN GĪNGN GĒNGN GĒIN GEŪN 
+GIĀN GIŌN GIĒN GYŪN GIĀIN GIĀUN GIŪN GIĀEN GIĀNGN GĪNHN GIĒNGN GIĒIN GIEŪN 
+KĀN KŌN KĒN KĪN KŪN KĀIN KĀUN KŌUN KĀEN KĀNGN KĪNGN KĒNGN KĒIN KEŪN 
+KIĀN KIŌN KIĒN KYŪN KIĀIN KIĀUN KIŪN KIĀEN KIĀNGN KĪNHN KIĒNGN KIĒIN KIEŪN 
+HĀN HŌN HĒN HĪN HŪN HĀIN HĀUN HŌUN HĀEN HĀNGN HĪNGN HĒNGN HĒIN HEŪN 
+HIĀN HIŌN HIĒN HYŪN HIĀIN HIĀUN HIŪN HIĀEN HIĀNGN HĪNHN HIĒNGN HIĒIN HIEŪN 
+HYUĀN HYUŌN HYUĒN HYUĪN HYUĀIN HYUĀUN HYUŌUN HYUĀEN HYUĀNGN HYUĪNGN HYŪNGN HYUĒIN HYUEŪN 
+ĀN ŌN ĒN ĪN ŪN ĀIN ĀUN ŌUN ĀEN ĀNGN ĪNGN ĒNGN ĒIN EŪN 
+IĀN IŌN IĒN IYŪN IĀIN IĀUN IŪN IĀEN IĀNGN ĪNHN IĒNGN IĒIN IEŪN 
+IUĀN IUŌN IUĒN IUĪN IUĀIN IUĀUN IUŌUN IUĀEN IUĀNGN IUĪNGN IŪNGN IUĒIN IUEŪN 
+NGWĀN NGWŌN NGWĒN NGWĪN NGWĀIN NGWĀUN NGWŌUN NGWĀEN NGWĀNGN NGWĪNGN NGŪNGN NGUĪN NGWEŪN 
+NGYUĀN NGYUŌN NGYUĒN NGYUĀIN NGYUĀUN NGYUŌUN NGYUĀEN NGYUĀNGN NGYUĪNHN NGYŪNGN NGYUĒIN NGYUEŪN 
+NWĀN NWŌN NWĒN NWĪN NWĀIN NWĀUN NWŌUN NWĀEN NWĀNGN NWĪNGN NŪNGN NUĪN NWEŪN 
+NYUĀN NYUŌN NYUĒN NYUĀIN NYUĀUN NYUŌUN NYUĀEN NYUĀNGN NYUĪNHN NYŪNGN NYUĒIN NYUEŪN 
+DWĀN DWŌN DWĒN DWĪN DWĀIN DWĀUN DWŌUN DWĀEN DWĀNGN DWĪNGN DŪNGN DUĪN DWEŪN 
+DYUĀN DYUŌN DYUĒN DYUĀIN DYUĀUN DYUŌUN DYUĀEN DYUĀNGN DYUĪNHN DYŪNGN DYUĒIN DYUEŪN 
+TWĀN TWŌN TWĒN TWĪN TWĀIN TWĀUN TWŌUN TWĀEN TWĀNGN TWĪNGN TŪNGN TUĪN TWEŪN 
+TYUĀN TYUŌN TYUĒN TYUĀIN TYUĀUN TYUŌUN TYUĀEN TYUĀNGN TYUĪNHN TYŪNGN TYUĒIN TYUEŪN 
+GWĀN GWŌN GWĒN GWĪN GWĀIN GWĀUN GWŌUN GWĀEN GWĀNGN GWĪNGN GŪNGN GUĪN GWEŪN 
+GYUĀN GYUŌN GYUĒN GYUĀIN GYUĀUN GYUŌUN GYUĀEN GYUĀNGN GYUĪNHN GYŪNGN GYUĒIN GYUEŪN 
+KWĀN KWŌN KWĒN KWĪN KWĀIN KWĀUN KWŌUN KWĀEN KWĀNGN KWĪNGN KŪNGN KUĪN KWEŪN 
+KYUĀN KYUŌN KYUĒN KYUĀIN KYUĀUN KYUŌUN KYUĀEN KYUĀNGN KYUĪNHN KYŪNGN KYUĒIN KYUEŪN 
+FĀN FŌN FĒN FĪN FŪN FĀIN FĀUN FŌUN FĀEN FĀNGN FĪNGN FĒNGN FĒIN FEŪN 
+FIĀN FIŌN FIĒN FYŪN FIĀIN FIAŌN FIŪN FIĀEN FIĀNGN FĪNHN FIĒNGN FIĒIN FIEŪN 
+FWĀN FWŌN FWĒN FWĪN FWĀIN FWĀUN FWŌUN FWĀEN FWĀNGN FWĪNGN TŪNGN TUĪN FWEŪN 
+BO PO MO VO JI CHI SHI VAI NI ZEU TS S REU NZ NGE NE DE TE GE KE HE E NGU NU DU TU GU KU FU VU 
+A O E YI YU AI AU OU AE ANG ING ENG EI EU I
+BI PI MI VI JI CHI SHI YI NI ZEU TSEU SEU REU NZEU NGI NI DI TI GI KI HI I NGWI NWI DWI TWI GWI KWI FI 
+BU PU MU VU JU CHYU SHYU YU NYU ZU TSU SU RU NZU NGYU NU DU TU GU KU HYU YU NGWU NWU DWU TWU GWU KWU FU 
+Ā Ō Ē YĪ YŪ ĀI ĀU ŌU ĀE ĀNG ĪNG ĒNG ĒI EŪ
+, . ! ? : ; " " ( ) [ ]`.trim().split(/\s+/);
+
+    // 确保长度一致 (Python原文完全一致)
+    const yuanwen = rawYuanwen;
+    const romayin = rawRomayin;
+
+    // ---------- 辅助列表 ----------
+    const c = 'a o e Y L 6 2 T 8 3 V 1 i ';
+    const d = 'n N 5 l v 4';
+    const eu = 'D s H';
+
+    const yuanyin = c.split(/\s+/).filter(x => x.length > 0);
+    const weiyin = d.split(/\s+/).filter(x => x.length > 0);
+    const euyin = eu.split(/\s+/).filter(x => x.length > 0);
+
+    // ---------- 查找最长匹配 (Python逻辑: 从5 downto 1) ----------
+    function convertToCaption(src) {
+        let X = 0;
+        const L = src.length;
+        let T = '';
+        let s = src;  // 原始
+
+        while (X < L) {
+            let matched = false;
+            // 从长到短尝试匹配
+            for (let len = 5; len >= 1; len--) {
+                if (X + len > L) continue;
+                const part = s.substring(X, X + len);
+                const idx = yuanwen.indexOf(part);
+                if (idx !== -1) {
+                    T += romayin[idx];
+                    X += len;
+                    matched = true;
+
+                    // 检查下一个字符是否是 yuanyin 或 weiyin (且不能越界)
+                    if (X < L) {
+                        const nextCh = s[X];
+                        if (yuanyin.includes(nextCh) || weiyin.includes(nextCh)) {
+                            T += '-';
+                        }
+                    }
+                    // 检查特殊EU附加规则: 如果当前被匹配的最后一个字符 (s[X-1]) 属于 euyin 并且下一个字符是 'h'
+                    if (X < L && s[X] === 'h') {
+                        const lastChar = s[X-1]; // 匹配原字的最后一个字符
+                        if (euyin.includes(lastChar)) {
+                            T += 'EU';
+                        }
+                    }
+                    break; // 跳出for循环
+                }
+            }
+            if (!matched) {
+                // 没匹配到原文字符，原样添加
+                T += s[X];
+                X += 1;
+            }
+        }
+        return T;
+    }
+
+    function convertToLyricSpaced(src) {
+        let Y = 0;
+        const L = src.length;
+        let U = '';
+        let s = src;
+        while (Y < L) {
+            let matched = false;
+            for (let len = 5; len >= 1; len--) {
+                if (Y + len > L) continue;
+                const part = s.substring(Y, Y + len);
+                const idx = yuanwen.indexOf(part);
+                if (idx !== -1) {
+                    U += romayin[idx];
+                    Y += len;
+                    matched = true;
+                    // 检查EU附加 (最后一个字符属于euyin且下一个字符是'h')
+                    if (Y < L && s[Y] === 'h') {
+                        const lastChar = s[Y-1];
+                        if (euyin.includes(lastChar)) {
+                            U += 'EU';
+                        }
+                    }
+                    U += ' ';
+                    break;
+                }
+            }
+            if (!matched) {
+                U += s[Y] + ' ';
+                Y += 1;
+            }
+        }
+        // 去除连续空格 (类似Python中的处理)
+        let cleaned = '';
+        for (let i = 0; i < U.length - 1; i++) {
+            if (!(U[i] === ' ' && U[i+1] === ' ')) {
+                cleaned += U[i];
+            }
+        }
+        // 最后可能少一个字符? 但python处理中不遗漏最后一个字符，需要追加末尾字符 (除非末尾是空格)
+        if (U.length > 0) {
+            const last = U[U.length - 1];
+            if (cleaned.length === 0 || cleaned[cleaned.length - 1] !== last) {
+                // 但Python的for k in range(len(U)-1) 没有处理最后一个字符，其实最后一个字符被忽略? 让我们检查python代码:
+                // Z=''; for k in range(len(U)-1): if not (U[k]==' ' and U[k+1]==' '): Z+=U[k]
+                // 结束后 Z 不包含U的最后一个字符, 然后直接print(Z.lower())。
+                // 所以要模拟一致: 最后不加U[末尾]
+            }
+        }
+        // 末尾可能有单独空格, 但不影响
+        return cleaned;
+    }
+
+    function updateOutput() {
+        const input = document.getElementById('inputText').value;
+        const captionRaw = convertToCaption(input);
+        const caption = captionRaw;  // 全大写已在romayin中保证
+        const contents = captionRaw.charAt(0).toUpperCase() + captionRaw.slice(1).toLowerCase();
+        const lyricRaw = convertToLyricSpaced(input);
+        const lyric = lyricRaw.toLowerCase();
+
+        document.getElementById('captionOut').innerText = caption || ' ';
+        document.getElementById('contentsOut').innerText = contents || ' ';
+        document.getElementById('lyricOut').innerText = lyric || ' ';
+        document.getElementById('stats').innerHTML = `⏺ Length: ${input.length}  |  Conversion completed!  `;
+    }
+
+    // 绑定事件
+    document.getElementById('convertBtn').addEventListener('click', updateOutput);
+    document.getElementById('inputText').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') updateOutput();
+    });
+
+    // 初始示例
+    updateOutput();
+})();
+</script>
+</body>
+</html>
