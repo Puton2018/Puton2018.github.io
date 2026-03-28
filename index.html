@@ -168,10 +168,16 @@
     border-color: #d1e3f8;
     box-shadow: 0 2px 8px rgba(0, 102, 255, .08);
   }
+  #mode {
+    max-width: 100%;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
   .controls {
     display: flex;
     align-items: center;
     gap: 12px;
+    min-width: 0;
   }
   select {
     padding: 9px 36px 9px 14px;
@@ -198,6 +204,7 @@
     font-size: 16px;
     color: #4a7cbd;
     font-weight: 600;
+    flex-shrink: 0;
   }
   .arrow {
     text-align: center;
@@ -1061,8 +1068,8 @@ const i18n = {
   'ru': {
     htmlLang: 'ru',
     fontFamily: "'LocalArial', Arial, sans-serif",
-    pageTitle: 'Конвертер латинизированного Шидинь Ахо 2.2',
-    appTitle: 'Конвертер латинизированного Шидинь Ахо 2.2',
+    pageTitle: 'Конвертер Латинизированного Шидинь Ахо 2.2',
+    appTitle: 'Конвертер Латинизированного Шидинь Ахо 2.2',
     subtitle: 'Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> На основе «ТАБЛИЦЫ ПРЕОБРАЗОВАНИЯ ЛАТИНИЗИРОВАННОГО ШИДИНЬ АХО 2024» от Puton2018',
     labelInput: 'Шидинь Ахо (Чат-алфавит)',
     placeholder: 'Введите чат-алфавит Шидинь Ахо…',
