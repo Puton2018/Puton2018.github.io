@@ -27,6 +27,7 @@
     margin-bottom: 28px;
     box-shadow: 0 4px 20px rgba(0, 102, 255, .25), 0 0 40px rgba(0, 163, 255, .15);
     border-bottom: 1px solid rgba(0, 163, 255, .3);
+    position: relative;
   }
   h1 {
     font-size: 30px;
@@ -41,6 +42,49 @@
     color: rgba(255,255,255,0.85);
     text-align: center;
     letter-spacing: 0.8px;
+  }
+  /* 语言切换器（下拉菜单版） */
+  .lang-switcher {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .lang-icon {
+    font-size: 16px;
+    color: rgba(255,255,255,0.85);
+    pointer-events: none;
+    user-select: none;
+  }
+  .lang-select {
+    padding: 5px 28px 5px 10px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.45);
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    appearance: auto;
+    backdrop-filter: blur(4px);
+    transition: background 0.2s, border-color 0.2s;
+    min-width: 110px;
+  }
+  .lang-select:hover {
+    background: rgba(255,255,255,0.25);
+    border-color: rgba(255,255,255,0.7);
+  }
+  .lang-select:focus {
+    border-color: #ffffff;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
+  }
+  .lang-select option {
+    background: #1a4fa8;
+    color: #ffffff;
+    font-weight: 600;
   }
   .container {
     width: 100%;
@@ -137,33 +181,49 @@
 </head>
 <body>
 <div class="header-bar">
-  <h1>拉丁化希顶语转写器2.2</h1>
-  <div class="subtitle">Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 &nbsp;|&nbsp; 基于Puton2018《拉丁化希顶语转写表2024》</div>
+  <h1 id="app-title">拉丁化希顶语转写器2.2</h1>
+  <div class="subtitle" id="app-subtitle">Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> 基于Puton2018《拉丁化希顶语转写表2024》</div>
+  <!-- 语言切换器（下拉菜单） -->
+  <div class="lang-switcher">
+    <span class="lang-icon">🌐</span>
+    <select class="lang-select" id="lang-select" aria-label="Interface language">
+      <option value="zh-Hans">简体中文</option>
+      <option value="zh-Hant">繁體中文</option>
+      <option value="en">English</option>
+      <option value="ja">日本語</option>
+      <option value="ko">한국어</option>
+      <option value="vi">Tiếng Việt</option>
+      <option value="ru">Русский</option>
+      <option value="es">Español</option>
+      <option value="fr">Français</option>
+      <option value="pt">Português</option>
+    </select>
+  </div>
 </div>
 
 <div class="container">
   <div>
-    <label>希顶语（聊天字母）</label>
+    <label id="label-input">希顶语（聊天字母）</label>
     <textarea id="input" placeholder="请输入希顶语聊天字母……" rows="5" spellcheck="false"></textarea>
   </div>
 
   <div class="controls">
-    <span class="mode-label">转写格式：</span>
+    <span class="mode-label" id="label-mode">转写格式：</span>
     <select id="mode">
-      <option value="caption">标题</option>
-      <option value="contents">正文</option>
-      <option value="lyric">歌词（音节拆分）</option>
+      <option value="contents" id="opt-contents">正文（智能大写）</option>
+      <option value="caption" id="opt-caption">标题（全部大写）</option>
+      <option value="lyric" id="opt-lyric">歌词（音节拆分）</option>
     </select>
   </div>
 
   <div class="arrow">↓</div>
 
   <div>
-    <label>拉丁化转写</label>
+    <label id="label-output">拉丁化转写</label>
     <textarea id="output" rows="5" readonly></textarea>
   </div>
 
-  <div class="info">Powered by Puton2018 | 最新版本：2026年3月25日</div>
+  <div class="info" id="app-info">Powered by Puton2018 <br> 最新版本：2026年3月25日</div>
 </div>
 
 <script>
@@ -790,7 +850,7 @@ function convertCaption(S) {
 
 function convertContents(caption) {
   // [Contents]: 句首和标点后大写，其余小写
-  const send = new Set(['.', '?', '!']);
+  const send = new Set(['.', '?', '!', '\n']);
   let T3 = '';
   let w = 0;
   for (let ll = 0; ll < caption.length; ll++) {
@@ -870,6 +930,233 @@ function doConvert() {
 
 inputEl.addEventListener('input', doConvert);
 modeEl.addEventListener('change', doConvert);
+
+// ====================== 多语言 i18n ======================
+const i18n = {
+  'zh-Hans': {
+    htmlLang: 'zh-Hans',
+    fontFamily: "'Microsoft YaHei', '微软雅黑', 'Segoe UI', sans-serif",
+    pageTitle: '拉丁化希顶语转写器2.2',
+    appTitle: '拉丁化希顶语转写器2.2',
+    subtitle: 'Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> 基于Puton2018《拉丁化希顶语转写表2024》',
+    labelInput: '希顶语（聊天字母）',
+    placeholder: '请输入希顶语聊天字母……',
+    labelMode: '转写格式：',
+    optContents: '正文（智能大写）',
+    optCaption: '标题（全部大写）',
+    optLyric: '歌词（音节拆分）',
+    labelOutput: '拉丁化转写',
+    info: 'Powered by Puton2018 <br> 最新版本：2026年3月25日',
+  },
+  'zh-Hant': {
+    htmlLang: 'zh-Hant',
+    fontFamily: "'Microsoft JhengHei', '微軟正黑體', 'Segoe UI', sans-serif",
+    pageTitle: '拉丁化希頂語轉寫器2.2',
+    appTitle: '拉丁化希頂語轉寫器2.2',
+    subtitle: 'Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> 基於Puton2018《拉丁化希頂語轉寫表2024》',
+    labelInput: '希頂語（聊天字母）',
+    placeholder: '請輸入希頂語聊天字母……',
+    labelMode: '轉寫格式：',
+    optContents: '正文（智慧大寫）',
+    optCaption: '標題（全部大寫）',
+    optLyric: '歌詞（音節拆分）',
+    labelOutput: '拉丁化轉寫',
+    info: 'Powered by Puton2018 <br> 最新版本：2026年3月25日',
+  },
+  'en': {
+    htmlLang: 'en',
+    fontFamily: "'Arial', Arial, sans-serif",
+    pageTitle: 'Latinized Xdi8 Aho Converter 2.2',
+    appTitle: 'Latinized Xdi8 Aho Converter 2.2',
+    subtitle: 'Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> Based on "LATINIZED SHIDINN AHO CONVERSION TABLE 2024" by Puton2018',
+    labelInput: 'Xdi8 Aho (Chat Letters)',
+    placeholder: 'Enter Xdi8 Aho chat letters…',
+    labelMode: 'Format:',
+    optContents: 'Contents (Automatic uppercase)',
+    optCaption: 'Caption (ALL IN CAPITAL LETTERS)',
+    optLyric: 'Lyric (Syllable split)',
+    labelOutput: 'Latinized Conversion',
+    info: 'Powered by Puton2018 <br> Latest version: Mar 25th, 2026',
+  },
+  'ja': {
+    htmlLang: 'ja',
+    fontFamily: "Meiryo, 'Meiryo UI', 'MS PGothic', sans-serif",
+    pageTitle: 'ラテン・フャ・シディーン・アホ・チズェー・ショー・エオチュエイ 2.2',
+    appTitle: 'ラテン・フャ・シディーン・アホ・チズェー・ショー・エオチュエイ 2.2',
+    subtitle: 'Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> Puton2018「ラテン・フャ・シディーン・アホ・チズェー・ショー・ビャオ 2024」に基づく',
+    labelInput: 'シディーンアホ（チャットレター）',
+    placeholder: 'シディーンアホチャットレターを入力してください。',
+    labelMode: '形式：',
+    optContents: 'コンテンツ（スマート大文字）',
+    optCaption: 'タイトル（全大文字）',
+    optLyric: '歌詞（音節分割）',
+    labelOutput: 'ラテン転写結果',
+    info: 'Powered by Puton2018 <br> 最終更新：2026年3月25日',
+  },
+  'ko': {
+    htmlLang: 'ko',
+    fontFamily: "'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', sans-serif",
+    pageTitle: '라틴어화된 시딩아호 전사기 2.2',
+    appTitle: '라틴어화된 시딩아호 전사기 2.2',
+    subtitle: 'Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> Puton2018 「라틴어화된 시딩아호 음역표 2024」 기반',
+    labelInput: '시딩아호 (챗 레터)',
+    placeholder: '시딩아호 챗 레터를 입력하세요…',
+    labelMode: '형식:',
+    optContents: '본문 (스마트 대문자)',
+    optCaption: '제목 (전부 대문자)',
+    optLyric: '가사 (음절 분할)',
+    labelOutput: '라틴 전사 결과',
+    info: 'Powered by Puton2018 <br> 최신 버전: 2026년 3월 25일',
+  },
+  'vi': {
+    htmlLang: 'vi',
+    fontFamily: "Arial, sans-serif",
+    pageTitle: 'Bộ Chuyển Tự Tiếng Xdi8 Aho Latinh Hóa 2.2',
+    appTitle: 'Bộ Chuyển Tự Tiếng Xdi8 Aho Latinh Hóa 2.2',
+    subtitle: 'Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> Dựa trên "BẢNG CHUYỂN ĐỔI AHO TIẾNG SHIDINN LATINH HÓA" 2024 bởi Puton2018',
+    labelInput: 'Tiếng Xdi8 (Chữ cái trò chuyện)',
+    placeholder: 'Nhập chữ cái trò chuyện Xdi8 Aho tại đây…',
+    labelMode: 'Định Dạng:',
+    optContents: 'Văn bản chính (Chữ hoa thông minh)',
+    optCaption: 'Tiêu đề (VIẾT HOA TẤT CẢ)',
+    optLyric: 'Lời bài hát (Tách âm tiết)',
+    labelOutput: 'Chuyển Đổi Latin Hóa',
+    info: 'Powered by Puton2018 <br> Phiên bản mới nhất: 25 tháng 3, 2026',
+  },
+  'ru': {
+    htmlLang: 'ru',
+    fontFamily: "Arial, sans-serif",
+    pageTitle: 'Конвертер латинизированного Шидинь Ахо 2.2',
+    appTitle: 'Конвертер латинизированного Шидинь Ахо 2.2',
+    subtitle: 'Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> На основе «ТАБЛИЦЫ ПРЕОБРАЗОВАНИЯ ЛАТИНИЗИРОВАННОГО ШИДИНЬ АХО 2024» от Puton2018',
+    labelInput: 'Шидинь Ахо (Чат-алфавит)',
+    placeholder: 'Введите чат-алфавит Шидинь Ахо…',
+    labelMode: 'Формат:',
+    optContents: 'Текст статьи (Умный регистр)',
+    optCaption: 'Заголовок (ВСЁ ЗАГЛАВНЫМИ)',
+    optLyric: 'Текст песни (Разделённый на слоги)',
+    labelOutput: 'Латинизированное Преобразование',
+    info: 'Powered by Puton2018 <br> Последнее обновление: 25 марта 2026 г.',
+  },
+  'es': {
+    htmlLang: 'es',
+    fontFamily: "Arial, sans-serif",
+    pageTitle: 'Convertidor de Xdi8 Aho Latinizado 2.2',
+    appTitle: 'Convertidor de Xdi8 Aho Latinizado 2.2',
+    subtitle: 'Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> Basado en la "TABLA DE CONVERSIÓN SHIDINN LATINIZADO 2024" de Puton2018',
+    labelInput: 'Xdi8 Aho (Letras de chat)',
+    placeholder: 'Introduce las letras de chat Xdi8 Aho aquí…',
+    labelMode: 'Formato:',
+    optContents: 'Texto principal (Capitalización inteligente)',
+    optCaption: 'Título (TODO EN MAYÚSCULAS)',
+    optLyric: 'Letra (División silábica)',
+    labelOutput: 'Conversión Latinizada',
+    info: 'Powered by Puton2018 <br> Última versión: 25 de marzo de 2026',
+  },
+  'fr': {
+    htmlLang: 'fr',
+    fontFamily: "Arial, sans-serif",
+    pageTitle: 'Convertisseur Xdi8 Aho 2.2 Latinisé',
+    appTitle: 'Convertisseur Xdi8 Aho 2.2 Latinisé',
+    subtitle: 'Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> Basé sur le « TABLEAU DE CONVERSION SHIDINN AHO LATINISÉ 2024 » de Puton2018',
+    labelInput: 'Xdi8 Aho (Lettres de chat)',
+    placeholder: 'Saisissez les lettres de chat Xdi8 Aho ici…',
+    labelMode: 'Format :',
+    optContents: 'Texte principal (Majuscules intelligentes)',
+    optCaption: 'Titre (TOUT EN MAJUSCULES)',
+    optLyric: 'Paroles (Découpage syllabique)',
+    labelOutput: 'Conversion Latinisée',
+    info: 'Powered by Puton2018 <br> Dernière version : 25 mars 2026',
+  },
+  'pt': {
+    htmlLang: 'pt',
+    fontFamily: "Arial, sans-serif",
+    pageTitle: 'Conversor Latinizado Xdi8 Aho 2.2',
+    appTitle: 'Conversor Latinizado Xdi8 Aho 2.2',
+    subtitle: 'Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> Baseado na "TABELA DE CONVERSÃO SHIDINN AHO LATINIZADO 2024" de Puton2018',
+    labelInput: 'Xdi8 Aho (Letras de chat)',
+    placeholder: 'Insira as letras de chat Xdi8 Aho aqui…',
+    labelMode: 'Formato:',
+    optContents: 'Texto principal (Maiúsculas automáticas)',
+    optCaption: 'Título (TUDO EM MAIÚSCULAS)',
+    optLyric: 'Letra (Separação silábica)',
+    labelOutput: 'Conversão Latinizada',
+    info: 'Powered by Puton2018 <br> Última versão: 25 de março de 2026',
+  },
+};
+
+let currentLang = 'zh-Hans';
+
+function applyLang(lang) {
+  const t = i18n[lang];
+  if (!t) return;
+  currentLang = lang;
+
+  // HTML lang
+  document.documentElement.lang = t.htmlLang;
+  // 全局字体
+  document.body.style.fontFamily = t.fontFamily;
+  document.getElementById('mode').style.fontFamily = t.fontFamily;
+  document.getElementById('input').style.fontFamily = t.fontFamily;
+  // Page title
+  document.title = t.pageTitle;
+  // Header
+  document.getElementById('app-title').textContent = t.appTitle;
+  document.getElementById('app-subtitle').innerHTML = t.subtitle;
+  // Labels & controls
+  document.getElementById('label-input').textContent = t.labelInput;
+  document.getElementById('input').placeholder = t.placeholder;
+  document.getElementById('label-mode').textContent = t.labelMode;
+  document.getElementById('opt-contents').textContent = t.optContents;
+  document.getElementById('opt-caption').textContent = t.optCaption;
+  document.getElementById('opt-lyric').textContent = t.optLyric;
+  document.getElementById('label-output').textContent = t.labelOutput;
+  document.getElementById('app-info').innerHTML = t.info;
+
+  // Sync dropdown
+  const sel = document.getElementById('lang-select');
+  if (sel) sel.value = lang;
+
+  // Save preference
+  try { localStorage.setItem('xdi8-ui-lang', lang); } catch(e) {}
+}
+
+// Bind language dropdown
+document.getElementById('lang-select').addEventListener('change', function() {
+  applyLang(this.value);
+});
+
+// Init: restore saved language or detect browser language
+(function initLang() {
+  let saved;
+  try { saved = localStorage.getItem('xdi8-ui-lang'); } catch(e) {}
+  if (saved && i18n[saved]) {
+    applyLang(saved);
+    return;
+  }
+  const bl = (navigator.language || navigator.userLanguage || '').toLowerCase();
+  if (bl.startsWith('zh-hant') || bl === 'zh-tw' || bl === 'zh-hk' || bl === 'zh-mo') {
+    applyLang('zh-Hant');
+  } else if (bl.startsWith('zh')) {
+    applyLang('zh-Hans');
+  } else if (bl.startsWith('ja')) {
+    applyLang('ja');
+  } else if (bl.startsWith('ko')) {
+    applyLang('ko');
+  } else if (bl.startsWith('vi')) {
+    applyLang('vi');
+  } else if (bl.startsWith('ru')) {
+    applyLang('ru');
+  } else if (bl.startsWith('es')) {
+    applyLang('es');
+  } else if (bl.startsWith('fr')) {
+    applyLang('fr');
+  } else if (bl.startsWith('pt')) {
+    applyLang('pt');
+  } else {
+    applyLang('en');
+  }
+})();
 </script>
 </body>
 </html>
