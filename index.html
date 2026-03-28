@@ -5,9 +5,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>拉丁化希顶语转写器2.2</title>
 <style>
+  @font-face {
+    font-family: 'LocalMSYH';
+    src: url('msyh.ttc');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'LocalMSJH';
+    src: url('msjh.ttc');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'LocalArial';
+    src: url('arialbd.ttf');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'LocalMeiryo';
+    src: url('meiryo.ttc');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'LocalMalgun';
+    src: url('malgun.ttf');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Microsoft YaHei', '微软雅黑', 'Segoe UI', sans-serif;
+    font-family: 'LocalMSYH', 'Microsoft YaHei', sans-serif;
     background: linear-gradient(180deg, #f0f4f8 0%, #e8eef4 50%, #dfe6ed 100%);
     color: #2d3748;
     min-height: 100vh;
@@ -20,14 +55,11 @@
   .header-bar {
     width: 100%;
     background: linear-gradient(135deg, #0066ff 0%, #00a3ff 50%, #00d4aa 100%);
-    padding: 18px 24px 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 28px;
-    box-shadow: 0 4px 20px rgba(0, 102, 255, .25), 0 0 40px rgba(0, 163, 255, .15);
-    border-bottom: 1px solid rgba(0, 163, 255, .3);
-    position: relative;
+    padding: 14px 24px 14px;
+    margin-bottom: 0;
+    #box-shadow: 0 4px 20px rgba(0, 102, 255, .25), 0 0 40px rgba(0, 163, 255, .15);
+    #border-bottom: 1px solid rgba(0, 163, 255, .3);
+    text-align: center;
   }
   h1 {
     font-size: 30px;
@@ -36,6 +68,8 @@
     letter-spacing: 3px;
     font-weight: 600;
     text-shadow: 0 2px 8px rgba(0, 0, 0, .2);
+    word-break: break-word;
+    line-height: 1.3;
   }
   .subtitle {
     font-size: 14px;
@@ -43,11 +77,18 @@
     text-align: center;
     letter-spacing: 0.8px;
   }
-  /* 语言切换器（下拉菜单版） */
+  /* 语言切换栏（标题栏下方独立行） */
+  .lang-bar {
+    width: 100%;
+    background: linear-gradient(135deg, #0066ff 0%, #00a3ff 50%, #00d4aa 100%);
+    padding: 8px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 7px;
+    margin-bottom: 28px;
+  }
   .lang-switcher {
-    position: absolute;
-    top: 14px;
-    right: 18px;
     display: flex;
     align-items: center;
     gap: 7px;
@@ -183,10 +224,11 @@
 <div class="header-bar">
   <h1 id="app-title">拉丁化希顶语转写器2.2</h1>
   <div class="subtitle" id="app-subtitle">Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> 基于Puton2018《拉丁化希顶语转写表2024》</div>
-  <!-- 语言切换器（下拉菜单） -->
-  <div class="lang-switcher">
-    <span class="lang-icon">🌐</span>
-    <select class="lang-select" id="lang-select" aria-label="Interface language">
+</div>
+<!-- 语言切换栏（独立于标题栏） -->
+<div class="lang-bar">
+  <span class="lang-icon">🌐</span>
+  <select class="lang-select" id="lang-select" aria-label="Interface language">
       <option value="zh-Hans">简体中文</option>
       <option value="zh-Hant">繁體中文</option>
       <option value="en">English</option>
@@ -198,7 +240,6 @@
       <option value="fr">Français</option>
       <option value="pt">Português</option>
     </select>
-  </div>
 </div>
 
 <div class="container">
@@ -935,7 +976,7 @@ modeEl.addEventListener('change', doConvert);
 const i18n = {
   'zh-Hans': {
     htmlLang: 'zh-Hans',
-    fontFamily: "'Microsoft YaHei', '微软雅黑', 'Segoe UI', sans-serif",
+    fontFamily: "'LocalMSYH', 'Microsoft YaHei', sans-serif",
     pageTitle: '拉丁化希顶语转写器2.2',
     appTitle: '拉丁化希顶语转写器2.2',
     subtitle: 'Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> 基于Puton2018《拉丁化希顶语转写表2024》',
@@ -950,7 +991,7 @@ const i18n = {
   },
   'zh-Hant': {
     htmlLang: 'zh-Hant',
-    fontFamily: "'Microsoft JhengHei', '微軟正黑體', 'Segoe UI', sans-serif",
+    fontFamily: "'LocalMSJH', 'Microsoft JhengHei', sans-serif",
     pageTitle: '拉丁化希頂語轉寫器2.2',
     appTitle: '拉丁化希頂語轉寫器2.2',
     subtitle: 'Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> 基於Puton2018《拉丁化希頂語轉寫表2024》',
@@ -965,7 +1006,7 @@ const i18n = {
   },
   'en': {
     htmlLang: 'en',
-    fontFamily: "'Arial', Arial, sans-serif",
+    fontFamily: "'LocalArial', Arial, sans-serif",
     pageTitle: 'Latinized Xdi8 Aho Converter 2.2',
     appTitle: 'Latinized Xdi8 Aho Converter 2.2',
     subtitle: 'Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> Based on "LATINIZED SHIDINN AHO CONVERSION TABLE 2024" by Puton2018',
@@ -980,7 +1021,7 @@ const i18n = {
   },
   'ja': {
     htmlLang: 'ja',
-    fontFamily: "Meiryo, 'Meiryo UI', 'MS PGothic', sans-serif",
+    fontFamily: "'LocalMeiryo', Meiryo, sans-serif",
     pageTitle: 'ラテン・フャ・シディーン・アホ・チズェー・ショー・エオチュエイ 2.2',
     appTitle: 'ラテン・フャ・シディーン・アホ・チズェー・ショー・エオチュエイ 2.2',
     subtitle: 'Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> Puton2018「ラテン・フャ・シディーン・アホ・チズェー・ショー・ビャオ 2024」に基づく',
@@ -995,7 +1036,7 @@ const i18n = {
   },
   'ko': {
     htmlLang: 'ko',
-    fontFamily: "'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', sans-serif",
+    fontFamily: "'LocalMalgun', 'Malgun Gothic', sans-serif",
     pageTitle: '라틴어화된 시딩아호 전사기 2.2',
     appTitle: '라틴어화된 시딩아호 전사기 2.2',
     subtitle: 'Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> Puton2018 「라틴어화된 시딩아호 음역표 2024」 기반',
@@ -1010,7 +1051,7 @@ const i18n = {
   },
   'vi': {
     htmlLang: 'vi',
-    fontFamily: "Arial, sans-serif",
+    fontFamily: "'LocalArial', Arial, sans-serif",
     pageTitle: 'Bộ Chuyển Tự Tiếng Xdi8 Aho Latinh Hóa 2.2',
     appTitle: 'Bộ Chuyển Tự Tiếng Xdi8 Aho Latinh Hóa 2.2',
     subtitle: 'Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> Dựa trên "BẢNG CHUYỂN ĐỔI AHO TIẾNG SHIDINN LATINH HÓA" 2024 bởi Puton2018',
@@ -1025,7 +1066,7 @@ const i18n = {
   },
   'ru': {
     htmlLang: 'ru',
-    fontFamily: "Arial, sans-serif",
+    fontFamily: "'LocalArial', Arial, sans-serif",
     pageTitle: 'Конвертер латинизированного Шидинь Ахо 2.2',
     appTitle: 'Конвертер латинизированного Шидинь Ахо 2.2',
     subtitle: 'Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> На основе «ТАБЛИЦЫ ПРЕОБРАЗОВАНИЯ ЛАТИНИЗИРОВАННОГО ШИДИНЬ АХО 2024» от Puton2018',
@@ -1040,7 +1081,7 @@ const i18n = {
   },
   'es': {
     htmlLang: 'es',
-    fontFamily: "Arial, sans-serif",
+    fontFamily: "'LocalArial', Arial, sans-serif",
     pageTitle: 'Convertidor de Xdi8 Aho Latinizado 2.2',
     appTitle: 'Convertidor de Xdi8 Aho Latinizado 2.2',
     subtitle: 'Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> Basado en la "TABLA DE CONVERSIÓN SHIDINN LATINIZADO 2024" de Puton2018',
@@ -1055,7 +1096,7 @@ const i18n = {
   },
   'fr': {
     htmlLang: 'fr',
-    fontFamily: "Arial, sans-serif",
+    fontFamily: "'LocalArial', Arial, sans-serif",
     pageTitle: 'Convertisseur Xdi8 Aho 2.2 Latinisé',
     appTitle: 'Convertisseur Xdi8 Aho 2.2 Latinisé',
     subtitle: 'Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> Basé sur le « TABLEAU DE CONVERSION SHIDINN AHO LATINISÉ 2024 » de Puton2018',
@@ -1070,7 +1111,7 @@ const i18n = {
   },
   'pt': {
     htmlLang: 'pt',
-    fontFamily: "Arial, sans-serif",
+    fontFamily: "'LocalArial', Arial, sans-serif",
     pageTitle: 'Conversor Latinizado Xdi8 Aho 2.2',
     appTitle: 'Conversor Latinizado Xdi8 Aho 2.2',
     subtitle: 'Lating Fia Shidinn Aho Chizwae Shio E-ochuei 2.2 <br> Baseado na "TABELA DE CONVERSÃO SHIDINN AHO LATINIZADO 2024" de Puton2018',
